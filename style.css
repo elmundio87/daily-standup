@@ -1,14 +1,31 @@
-.no-bullet-points li {
-    list-style-type: none;
+.sprint-goals li {
     font-weight:normal;
+    font-size: 16px;
+    padding-left: 0px;
 }
 
-.no-bullet-points > ul > li {
+.sprint-goals > ul {
+  padding-left: 10px;
+  list-style-type: none;
+}
+
+.sprint-goals > ul > li {
+  margin-top: 10px;
   font-weight: bold;
+  font-size: 18px;
+  padding-left: 0px;
+}
+
+.sprint-goals > ul > li > ul {
+  padding-left: 20px;
+}
+
+.no-bullet-points {
+  list-style-type: none;
 }
 
 .card {
-  border: 1px outset;
+  border: 2px outset;
   margin: 5px;
   padding: 10px;
   float: left;

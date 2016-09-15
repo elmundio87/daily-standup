@@ -16,13 +16,13 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-4">
-        <h1>Sprint Goals</h1>
-        <div class="no-bullet-points">
+        <h2>Sprint Goals</h2>
+        <div class="sprint-goals">
         @SPRINT_GOALS@
         </div>
       </div>
       <div class="col-md-8">
-        <h1>Blocked Issues</h1>
+        <h2>Blocked Issues</h2>
         <div class="card-container">
         @BLOCKED_ISSUES@
         <div>
@@ -30,9 +30,9 @@
     </div>
   </div>
   <div>
-    <h1 class="title-label">
+    <h2 class="title-label">
       @DISPLAY_NAME@
-    </h1>
+    </h2>
   </div>
 </body>
 </html>
