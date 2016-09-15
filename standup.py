@@ -10,6 +10,7 @@ def getRapidBoardId(board_name):
 	boards = json.loads(r.text)
 	for board in boards['views']:
 		if board['name'] == board_name:
+			print("Found board ID {0}".format(board['id']))
 			return board['id']
 	raise "No matching board found"
 
@@ -19,10 +20,12 @@ def getLatestSprint(id):
 	sprints = json.loads(r.text)
 	for sprint in sprints['sprints']:
 		if sprint['state'] == "ACTIVE" and config.board in sprint['name']:
+			print("Found sprint name {0}".format(sprint['name']))
 			return sprint['name']
 	raise "No matching sprint found"
 
 def getSprintGoals(sprint_name):
+	print("Getting sprint goals")
 	url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(config.base_url, sprint_name.replace(" ","+").replace("#",""))
 	r = requests.get(url, auth=(config.user, config.password))
 	r.raise_for_status
@@ -41,6 +44,7 @@ def getSprintGoals(sprint_name):
 	return lxml.html.tostring(goals)
 
 def getBlockedIssues(sprint_name):
+	print("Getting blocked issues")
 	issues = "<ul>"
 	jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
 	blocked = all_proj_issues_but_mine = jira.search_issues('Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
@@ -56,5 +60,14 @@ def getBlockedIssues(sprint_name):
 
 board_id = getRapidBoardId(config.board)
 sprint_name = getLatestSprint(board_id)
-print getBlockedIssues(sprint_name)
-print getSprintGoals(sprint_name)
+with open('index.html.template', 'r') as html_file:
+    data=html_file.read()
+
+data = data.replace("@SPRINT_GOALS@",getSprintGoals(sprint_name))
+data = data.replace("@BLOCKED_ISSUES@",getBlockedIssues(sprint_name))
+
+text_file = open("index.html", "w")
+text_file.write(data)
+text_file.close()
+
+print("Created index.html")
