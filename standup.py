@@ -40,9 +40,11 @@ def getSprintGoals(sprint_name):
 	goals = None
 
 	for element in elements:
-		print lxml.html.tostring(element)
 		if ">Sprint Goals<" in lxml.html.tostring(element):
 			goals = element.find('ul')
+
+	if goals == None:
+		return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url)
 
 	return lxml.html.tostring(goals)
 
@@ -51,6 +53,10 @@ def getBlockedIssues(sprint_name):
 	issues = "<ul class='no-bullet-points'>"
 	jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
 	blocked = all_proj_issues_but_mine = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
+
+	if blocked == []:
+		return "No Blocked issues found in {0}. Any issue that is flagged will be counted as 'Blocked'".format(sprint_name)
+
 	for issue in blocked:
 		issues += "<li>"
 		issues += "<div class='card'>"
