@@ -3,6 +3,7 @@ import lxml.html
 import config
 import json
 from jira import JIRA
+import time
 
 def getRapidBoardId(board_name):
 	url = "{0}/rest/greenhopper/1.0/rapidview".format(config.base_url)
@@ -45,15 +46,24 @@ def getSprintGoals(sprint_name):
 
 def getBlockedIssues(sprint_name):
 	print("Getting blocked issues")
-	issues = "<ul>"
+	issues = "<ul class='no-bullet-points'>"
 	jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
-	blocked = all_proj_issues_but_mine = jira.search_issues('Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
+	blocked = all_proj_issues_but_mine = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
 	for issue in blocked:
 		issues += "<li>"
-		issues += "<a href=\"{0}\">".format(issue.key)
+		issues += "<div class='card'>"
+		issues += "<div style='float:left'>"
+		issues += "<a target='_blank' href=\"{0}/browse/{1}\">".format(config.base_url, issue.key)
 		issues += issue.key
 		issues += "</a>"
+		issues += "</div>"
+		issues += "<div style='float:right;font-weight: bold''>"
+		issues += issue.fields.status.name
+		issues += "</div>"
+		issues += "<div style='float:left'>"
 		issues += issue.fields.summary
+		issues += "</div>"
+		issues += "</div>"
 		issues += "</li>"
 	issues += "</ul>"
 	return issues
@@ -65,6 +75,7 @@ with open('index.html.template', 'r') as html_file:
 
 data = data.replace("@SPRINT_GOALS@",getSprintGoals(sprint_name))
 data = data.replace("@BLOCKED_ISSUES@",getBlockedIssues(sprint_name))
+data = data.replace("@DISPLAY_NAME@","{0} - {1}".format(config.board,time.strftime("%x")))
 
 text_file = open("index.html", "w")
 text_file.write(data)

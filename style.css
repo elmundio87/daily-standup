@@ -1,0 +1,25 @@
+.no-bullet-points li {
+    list-style-type: none;
+    font-weight:normal;
+}
+
+.no-bullet-points > ul > li {
+  font-weight: bold;
+}
+
+.card {
+  border: 1px outset;
+  margin: 5px;
+  padding: 10px;
+  float: left;
+  width: 48%;
+  min-height:100px;
+  max-height: 150px;
+}
+
+.title-label {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  margin: 0px;
+}
