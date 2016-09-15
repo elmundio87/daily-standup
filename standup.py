@@ -69,8 +69,32 @@ def getBlockedIssues(sprint_name):
 	issues += "</ul>"
 	return issues
 
+def getTotalPoints(sprint_name):
+
+	jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
+	closed_issues = all_proj_issues_but_mine = jira.search_issues('Status IN (Closed, Resolved) AND Sprint = "{0}"'.format(sprint_name))
+	open_issues = all_proj_issues_but_mine = jira.search_issues('Status NOT IN (Closed, Resolved) AND Sprint = "{0}"'.format(sprint_name))
+
+	total_points_open = 0
+	total_points_closed = 0
+
+	for issue in closed_issues:
+		if config.story_points_custom_field in issue.fields.__dict__.keys():
+			points = getattr(issue.fields, config.story_points_custom_field)
+			if points != None:
+				total_points_closed += points
+
+	for issue in open_issues:
+		if config.story_points_custom_field in issue.fields.__dict__.keys():
+			points = getattr(issue.fields, config.story_points_custom_field)
+			if points != None:
+				total_points_open += points
+
+	return (total_points_open, total_points_closed)
+
 board_id = getRapidBoardId(config.board)
 sprint_name = getLatestSprint(board_id)
+
 with open('index.html.template', 'r') as html_file:
     data=html_file.read()
 
