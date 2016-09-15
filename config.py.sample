@@ -1,0 +1,4 @@
+base_url = "https://devopsguys.atlassian.net"
+board = "Pack 2"
+user = "USER"
+password = "PASSWORD"
