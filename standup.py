@@ -1,11 +1,29 @@
 import requests
 import lxml.html
 import config
+import json
 from jira import JIRA
 
-def getSprintGoals():
-	url = "https://devopsguys.atlassian.net/wiki/display/DEVOPSGUYS/Pack+2+Sprint+{0}+Retrospective".format(config.sprint)
+def getRapidBoardId(board_name):
+	url = "{0}/rest/greenhopper/1.0/rapidview".format(config.base_url)
+	r = requests.get(url, auth=(config.user, config.password))
+	boards = json.loads(r.text)
+	for board in boards['views']:
+		if board['name'] == board_name:
+			return board['id']
+	raise "No matching board found"
 
+def getLatestSprint(id):
+	url = "{0}/rest/greenhopper/latest/sprintquery/{1}".format(config.base_url, id)
+	r = requests.get(url, auth=(config.user, config.password))
+	sprints = json.loads(r.text)
+	for sprint in sprints['sprints']:
+		if sprint['state'] == "ACTIVE" and config.board in sprint['name']:
+			return sprint['name']
+	raise "No matching sprint found"
+
+def getSprintGoals(sprint_name):
+	url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(config.base_url, sprint_name.replace(" ","+").replace("#",""))
 	r = requests.get(url, auth=(config.user, config.password))
 	r.raise_for_status
 
@@ -22,15 +40,21 @@ def getSprintGoals():
 	goals = rootElement.find('ul')
 	return lxml.html.tostring(goals)
 
-def getBlockedIssues():
-	issues = ""
-	jira = JIRA('https://devopsguys.atlassian.net', basic_auth=(config.user, config.password))
-	blocked = all_proj_issues_but_mine = jira.search_issues('Flagged = Impediment AND Sprint = "Pack 2 Sprint #{0}"'.format(config.sprint))
+def getBlockedIssues(sprint_name):
+	issues = "<ul>"
+	jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
+	blocked = all_proj_issues_but_mine = jira.search_issues('Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
 	for issue in blocked:
+		issues += "<li>"
+		issues += "<a href=\"{0}\">".format(issue.key)
 		issues += issue.key
-		issues += " : "
+		issues += "</a>"
 		issues += issue.fields.summary
-	print issues
+		issues += "</li>"
+	issues += "</ul>"
+	return issues
 
-getBlockedIssues()
-getSprintGoals()
+board_id = getRapidBoardId(config.board)
+sprint_name = getLatestSprint(board_id)
+print getBlockedIssues(sprint_name)
+print getSprintGoals(sprint_name)
