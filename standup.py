@@ -40,7 +40,8 @@ def getSprintGoals(sprint_name):
 	goals = None
 
 	for element in elements:
-		if "Sprint Goals" in lxml.html.tostring(element):
+		print lxml.html.tostring(element)
+		if ">Sprint Goals<" in lxml.html.tostring(element):
 			goals = element.find('ul')
 
 	return lxml.html.tostring(goals)
