@@ -4,6 +4,8 @@ import config
 import json
 from jira import JIRA
 import time
+import webbrowser
+import os
 
 def getRapidBoardId(board_name):
 	url = "{0}/rest/greenhopper/1.0/rapidview".format(config.base_url)
@@ -31,17 +33,16 @@ def getSprintGoals(sprint_name):
 	r = requests.get(url, auth=(config.user, config.password))
 	r.raise_for_status
 
-	rootElement = None
-
 	tree = lxml.html.fromstring(r.text)
 
 	elements = tree.find_class("innerCell")
 
+	goals = None
+
 	for element in elements:
 		if "SprintGoals" in lxml.html.tostring(element):
-			rootElement = element
+			goals = element.find('ul')
 
-	goals = rootElement.find('ul')
 	return lxml.html.tostring(goals)
 
 def getBlockedIssues(sprint_name):
@@ -82,3 +83,5 @@ text_file.write(data)
 text_file.close()
 
 print("Created index.html")
+dir_path = os.path.dirname(os.path.realpath(__file__))
+webbrowser.open('file://{0}/index.html'.format(dir_path))
