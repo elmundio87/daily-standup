@@ -40,7 +40,7 @@ def getSprintGoals(sprint_name):
 	goals = None
 
 	for element in elements:
-		if "SprintGoals" in lxml.html.tostring(element):
+		if "Sprint Goals" in lxml.html.tostring(element):
 			goals = element.find('ul')
 
 	return lxml.html.tostring(goals)
@@ -62,7 +62,7 @@ def getBlockedIssues(sprint_name):
 		issues += issue.fields.status.name
 		issues += "</div>"
 		issues += "<div style='float:left'>"
-		issues += issue.fields.summary
+		issues += issue.fields.summary.replace("Why:","</br>Why:")
 		issues += "</div>"
 		issues += "</div>"
 		issues += "</li>"
@@ -100,7 +100,7 @@ with open('index.html.template', 'r') as html_file:
 
 data = data.replace("@SPRINT_GOALS@",getSprintGoals(sprint_name))
 data = data.replace("@BLOCKED_ISSUES@",getBlockedIssues(sprint_name))
-data = data.replace("@DISPLAY_NAME@","{0} - {1}".format(config.board,time.strftime("%x")))
+data = data.replace("@DISPLAY_NAME@","{0} - {1}".format(sprint_name,time.strftime("%x")))
 
 text_file = open("index.html", "w")
 text_file.write(data)
