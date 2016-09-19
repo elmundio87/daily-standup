@@ -34,5 +34,24 @@
       @DISPLAY_NAME@
     </h2>
   </div>
+<video autoplay="true" id="videoElement">
+<script>
+var video = document.querySelector("#videoElement");
+
+
+function handleVideo(stream) {
+	video.src = window.URL.createObjectURL(stream);
+}
+
+function videoError(e) {
+}
+
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+if (navigator.getUserMedia) {
+	navigator.getUserMedia({video: true}, handleVideo, videoError);
+}
+
+</script>
 </body>
 </html>

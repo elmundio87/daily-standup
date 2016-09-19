@@ -23,7 +23,7 @@
 
 .title-label {
   position: fixed;
-  right: 10px;
+  right: 270px;
   bottom: 10px;
   margin: 0px;
 }
@@ -52,4 +52,11 @@ h2 {
 
 .sprint-goals > ul > li > ul {
   padding-left: 20px;
+}
+
+#videoElement {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	height: 200px;
 }
