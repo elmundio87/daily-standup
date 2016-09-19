@@ -115,4 +115,4 @@ text_file.close()
 
 print("Created index.html")
 dir_path = os.path.dirname(os.path.realpath(__file__))
-webbrowser.open('file://{0}/index.html'.format(dir_path))
+webbrowser.open('http://localhost:8000/index.html')
