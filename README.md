@@ -9,5 +9,5 @@ Make a copy of `config.sample` called `config` and edit as required.
 
 Run: `./start.sh`
 
-This will start a local webserver, generate the index.html and start a browser window.
+This will start a local webserver, generate the index.html and open a browser window.
 For remote participants, simply share the screen.
