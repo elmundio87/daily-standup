@@ -52,27 +52,46 @@ def getBlockedIssues(sprint_name):
 	print("Getting blocked issues")
 	issues = "<ul class='no-bullet-points'>"
 	jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
-	blocked = all_proj_issues_but_mine = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
+	flagged = all_proj_issues_but_mine = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
+	with_customer = all_proj_issues_but_mine = jira.search_issues('Status NOT IN (Closed, Resolved) AND Status = "With Customer" AND Sprint = "{0}"'.format(sprint_name))
 
-	if blocked == []:
-		return "No Blocked issues found in {0}. Any issue that is flagged will be counted as 'Blocked'".format(sprint_name)
-
-	for issue in blocked:
-		issues += "<li>"
+	if flagged == [] and with_customer == []:
+		return "No Blocked issues found in {0}. Any issue that is flagged or 'With Customer' will be counted as 'Blocked'".format(sprint_name)
+	
+	issues += "<li>"
+	
+	for issue in flagged:
 		issues += "<div class='card'>"
-		issues += "<div style='float:left'>"
+		issues += "<div style='float:left' class='card_jira_id'>"
 		issues += "<a target='_blank' href=\"{0}/browse/{1}\">".format(config.base_url, issue.key)
 		issues += issue.key
 		issues += "</a>"
 		issues += "</div>"
-		issues += "<div style='float:right;font-weight: bold''>"
+		issues += "<div class='card_jira_status flagged'>"
 		issues += issue.fields.status.name
 		issues += "</div>"
-		issues += "<div style='float:left'>"
-		issues += issue.fields.summary.replace("Why:","</br>Why:")
+		issues += "<div class='card_jira_description'>"
+		issues += issue.fields.summary.replace("Why","</br>Why")
 		issues += "</div>"
 		issues += "</div>"
 		issues += "</li>"
+	
+	for issue in with_customer:
+		issues += "<div class='card'>"
+		issues += "<div style='float:left' class='card_jira_id'>"
+		issues += "<a target='_blank' href=\"{0}/browse/{1}\">".format(config.base_url, issue.key)
+		issues += issue.key
+		issues += "</a>"
+		issues += "</div>"
+		issues += "<div class='card_jira_status'>"
+		issues += issue.fields.status.name
+		issues += "</div>"
+		issues += "<div class='card_jira_description'>"
+		issues += issue.fields.summary.replace("Why","</br>Why")
+		issues += "</div>"
+		issues += "</div>"
+		issues += "</li>"
+		
 	issues += "</ul>"
 	return issues
 

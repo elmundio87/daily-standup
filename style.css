@@ -4,21 +4,16 @@
 }
 
 .card {
+  overflow-y: scroll;
   border: 2px outset;
   margin: 5px;
   padding: 10px;
-  width: 47%;
-  min-width: 300px;
-  max-width:400px;
-  height: 130px;
+  width: 330px;
+  height: 100px;
   float: left;
   -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
   -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
   box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-}
-
-.card a{
-  font-size: 16px;
 }
 
 .title-label {
@@ -34,7 +29,7 @@ h2 {
 }
 
 .sprint-goals li {
-  font-size: 14px;
+  font-size: 18px;
   font-weight:normal;
   padding-left: 0px;
 }
@@ -60,4 +55,29 @@ h2 {
 	bottom: 10px;
 	right: 10px;
 	height: 250px;
+}
+
+.card_jira_id {
+  float: left;
+  width: 50%;
+}
+
+.card_jira_id a{
+  font-size: 16px;
+}
+
+.card_jira_status {
+  float:right;
+  font-weight: bold;
+  text-align: right;
+  width: 50%;
+}
+
+.card_jira_description {
+  float:left;
+  width: 100%;
+}
+
+.flagged {
+  color: red;
 }
