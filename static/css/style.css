@@ -89,3 +89,24 @@ h2 {
 .flagged {
   color: red;
 }
+
+#loader img {
+  width: 400px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+
+#loader .message {
+  position: absolute;
+  bottom: 50px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  width: 500px;
+  font-size: 36px;
+  text-align: center;
+}
