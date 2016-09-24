@@ -16,7 +16,7 @@
   box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
 }
 
-.title-label {
+#title-label {
   position: absolute;
   right: 20px;
   top: 10px;

@@ -30,15 +30,9 @@
         </div>
     </div>
     <div>
-      <h2 class="title-label">
-        Pack 2 Sprint #19 - 09/23/16
+      <h2 id="title-label">
       </h2>
     </div>
-  </div>
-  <div>
-    <h2 class="title-label">
-      Pack 2 Sprint #19 - 09/23/16
-    </h2>
   </div>
 <video autoplay="true" id="videoElement" class="draggable">
 <script src="js/getUrlParameter.js"></script>
@@ -46,6 +40,7 @@
 <script src="js/draggable.js"></script>
 <script src="js/sprintGoals.js"></script>
 <script src="js/blockedIssues.js"></script>
+<script src="js/titleLabel.js"></script>
 <script>
 
 getRapidBoardId = function(board_name){
@@ -62,6 +57,7 @@ $.get( "/getSprintName", { board_id: board_id, board_name: board_name } )
     SPRINT_NAME = JSON.parse(data)['sprint_name']
     getSprintGoals()
     getBlockedIssues()
+    setTitleLabel()
     setInterval(getBlockedIssues, 30000)
   })
 }
