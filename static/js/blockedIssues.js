@@ -38,13 +38,11 @@ blockedIssuesHandler = function(data){
   
 }
 
-blockedIssuesAjax = function(){
-  $.ajax({
-    url: "/getBlockedIssues"
-  }).done(function(data) { 
-    blockedIssuesHandler(data)
-  });
-}
+getBlockedIssues = function(){
 
-blockedIssuesAjax()
-setInterval(blockedIssuesAjax, 30000)
+  $.get( "/getBlockedIssues", { sprint_name: SPRINT_NAME } )
+    .done(function( data ) {
+      blockedIssuesHandler(data)
+    })
+    
+}

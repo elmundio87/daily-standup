@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from jira import JIRA
 import config
 import requests
@@ -13,7 +13,12 @@ def root():
 
 @app.route("/getBlockedIssues")
 def getBlockedIssues():
-	
+    
+    if 'sprint_name' in request.args:
+        sprint_name = request.args['sprint_name']
+    else:
+        return 'getBlockedIssues requires parameter [sprint_name]'
+    
     jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
     flagged  = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
     with_customer = jira.search_issues('Status NOT IN (Closed, Resolved) AND Status = "With Customer" AND Sprint = "{0}"'.format(sprint_name))
@@ -31,48 +36,71 @@ def getBlockedIssues():
 @app.route("/getSprintGoals")
 def getSprintGoals():
 	
-	url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(config.base_url, sprint_name.replace(" ","+").replace("#",""))
-	r = requests.get(url, auth=(config.user, config.password))
-	r.raise_for_status
+    if 'sprint_name' in request.args:
+        sprint_name = request.args['sprint_name']
+    else:
+        return 'getBlockedIssues requires parameter [sprint_name]'
 
-	tree = lxml.html.fromstring(r.text)
+    url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(config.base_url, sprint_name.replace(" ","+").replace("#",""))
+    r = requests.get(url, auth=(config.user, config.password))
+    r.raise_for_status
 
-	elements = tree.find_class("innerCell")
+    tree = lxml.html.fromstring(r.text)
 
-	goals = None
+    elements = tree.find_class("innerCell")
 
-	for element in elements:
-		if ">Sprint Goals<" in lxml.html.tostring(element):
-			goals = element.find('ul')
+    goals = None
 
-	if goals == None:
-		return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url)
+    for element in elements:
+        if ">Sprint Goals<" in lxml.html.tostring(element):
+        	goals = element.find('ul')
 
-	return lxml.html.tostring(goals)
+    if goals == None:
+        return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url)
 
-def getRapidBoardId(board_name):
-	url = "{0}/rest/greenhopper/1.0/rapidview".format(config.base_url)
-	r = requests.get(url, auth=(config.user, config.password))
-	boards = json.loads(r.text)
-	for board in boards['views']:
-		if board['name'] == board_name:
-			print("Found board ID {0}".format(board['id']))
-			return board['id']
-	raise "No matching board found"
+    return lxml.html.tostring(goals)
 
-def getLatestSprint(id):
-	url = "{0}/rest/greenhopper/latest/sprintquery/{1}".format(config.base_url, id)
-	r = requests.get(url, auth=(config.user, config.password))
-	sprints = json.loads(r.text)
-	for sprint in sprints['sprints']:
-		if sprint['state'] == "ACTIVE" and config.board in sprint['name']:
-			print("Found sprint name {0}".format(sprint['name']))
-			return sprint['name']
-	raise "No matching sprint found"
+@app.route("/getRapidBoardId")
+def getRapidBoardId():
+    
+    if 'board_name' in request.args:
+        board_name = request.args['board_name']
+    else:
+        return 'getRapidBoardId requires parameter [board_name]'
+    
+    url = "{0}/rest/greenhopper/1.0/rapidview".format(config.base_url)
+    r = requests.get(url, auth=(config.user, config.password))
+    boards = json.loads(r.text)
+    for board in boards['views']:
+        if board['name'] == board_name:
+            return json.dumps({"board_id": board['id']})
+    return "No matching board found"
 
+@app.route("/getSprintName")
+def getSprintName():
+    
+    if 'board_id' in request.args:
+        board_id = request.args['board_id']
+    else:
+        return 'getRapidBoardId requires parameter [board_id]'
+    
+    if 'board_name' in request.args:
+        board_name = request.args['board_name']
+    else:
+        return 'getRapidBoardId requires parameter [board_name]'
+        
+    url = "{0}/rest/greenhopper/latest/sprintquery/{1}".format(config.base_url, board_id)
+    r = requests.get(url, auth=(config.user, config.password))
+    sprints = json.loads(r.text)
+    for sprint in sprints['sprints']:
+        if sprint['state'] == "ACTIVE" and board_name in sprint['name']:
+            return json.dumps({"sprint_name": sprint['name']})
+	
+    return "No matching sprint found"
+    
 if __name__ == "__main__":
-    board_id = getRapidBoardId(config.board)
-    sprint_name = getLatestSprint(board_id)
+    # board_id = getRapidBoardId(config.board)
+    # sprint_name = getLatestSprint(board_id)
     app.run()
     
     

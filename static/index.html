@@ -41,10 +41,36 @@
     </h2>
   </div>
 <video autoplay="true" id="videoElement" class="draggable">
+<script src="js/getUrlParameter.js"></script>
 <script src="js/webcam.js"></script>
 <script src="js/draggable.js"></script>
 <script src="js/sprintGoals.js"></script>
 <script src="js/blockedIssues.js"></script>
+<script>
 
+getRapidBoardId = function(board_name){
+$.get( "/getRapidBoardId", { board_name: board_name } )
+  .done(function( data ) {
+    board_id = JSON.parse(data)['board_id']
+    getSprintName(board_id, board_name)
+  })
+}
+
+getSprintName = function(board_id,board_name){
+$.get( "/getSprintName", { board_id: board_id, board_name: board_name } )
+  .done(function( data ) {
+    SPRINT_NAME = JSON.parse(data)['sprint_name']
+    getSprintGoals()
+    getBlockedIssues()
+    setInterval(getBlockedIssues, 30000)
+    
+  })
+}
+
+board_name = getUrlParameter("board_name")
+
+getRapidBoardId(board_name)
+
+</script>
 </body>
 </html>
