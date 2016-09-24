@@ -48,7 +48,7 @@ blockedIssuesHandler = function(data){
 
 getBlockedIssues = function(){
 
-  $.get( "/getBlockedIssues", { sprint_name: SPRINT_NAME } )
+  $.get( API_URL + "/getBlockedIssues", { sprint_name: SPRINT_NAME } )
     .done(function( data ) {
       blockedIssuesHandler(data)
     })

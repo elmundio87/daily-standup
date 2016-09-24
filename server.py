@@ -1,15 +1,23 @@
 from flask import Flask, request
+from flask_s3 import FlaskS3
 from jira import JIRA
 import config
 import requests
 import json
 import lxml.html
 
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__)
 
-@app.route("/")
-def root():
-    return app.send_static_file('index.html')
+@app.route('/')
+def index():
+    return "Hello world", 200
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    return response
 
 @app.route("/getBlockedIssues")
 def getBlockedIssues():
@@ -103,8 +111,6 @@ def getSprintName():
     return "No matching sprint found"
     
 if __name__ == "__main__":
-    # board_id = getRapidBoardId(config.board)
-    # sprint_name = getLatestSprint(board_id)
     app.run()
     
     

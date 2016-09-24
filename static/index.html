@@ -15,6 +15,7 @@
   <script  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- <div id="loader"></div> -->
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-4">
@@ -34,7 +35,7 @@
       </h2>
     </div>
   </div>
-<video autoplay="true" id="videoElement" class="draggable">
+<video autoplay="true" id="videoElement" class="draggable"></video>
 <script src="js/getUrlParameter.js"></script>
 <script src="js/webcam.js"></script>
 <script src="js/draggable.js"></script>
@@ -43,8 +44,10 @@
 <script src="js/titleLabel.js"></script>
 <script>
 
+API_URL = "https://dboulqxjq9.execute-api.eu-west-1.amazonaws.com/dev"
+
 getRapidBoardId = function(board_name){
-$.get( "/getRapidBoardId", { board_name: board_name } )
+$.get( API_URL + "/getRapidBoardId", { board_name: board_name } )
   .done(function( data ) {
     board_id = JSON.parse(data)['board_id']
     getSprintName(board_id, board_name)
@@ -52,7 +55,7 @@ $.get( "/getRapidBoardId", { board_name: board_name } )
 }
 
 getSprintName = function(board_id,board_name){
-$.get( "/getSprintName", { board_id: board_id, board_name: board_name } )
+$.get( API_URL + "/getSprintName", { board_id: board_id, board_name: board_name } )
   .done(function( data ) {
     SPRINT_NAME = JSON.parse(data)['sprint_name']
     getSprintGoals()
