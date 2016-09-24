@@ -25,7 +25,7 @@ def getBlockedIssues():
     if 'sprint_name' in request.args:
         sprint_name = request.args['sprint_name']
     else:
-        return 'getBlockedIssues requires parameter [sprint_name]'
+        return 'getBlockedIssues requires parameter [sprint_name]', 400
     
     jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
     flagged  = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
@@ -43,7 +43,7 @@ def getBlockedIssues():
     if len(issues) == 0:
         return json.dumps({"error": "No blocked issues found."})
         
-    return json.dumps({"issues":issues,"base_url":config.base_url})
+    return json.dumps({"issues":issues,"base_url":config.base_url}), 200
     
 @app.route("/getSprintGoals")
 def getSprintGoals():
@@ -68,9 +68,9 @@ def getSprintGoals():
         	goals = element.find('ul')
 
     if goals == None:
-        return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url)
+        return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url), 400
 
-    return lxml.html.tostring(goals)
+    return lxml.html.tostring(goals), 200
 
 @app.route("/getRapidBoardId")
 def getRapidBoardId():
@@ -85,8 +85,8 @@ def getRapidBoardId():
     boards = json.loads(r.text)
     for board in boards['views']:
         if board['name'] == board_name:
-            return json.dumps({"board_id": board['id']})
-    return "No matching board found"
+            return json.dumps({"board_id": board['id']}), 200
+    return "No matching board found", 400
 
 @app.route("/getSprintName")
 def getSprintName():
@@ -94,21 +94,21 @@ def getSprintName():
     if 'board_id' in request.args:
         board_id = request.args['board_id']
     else:
-        return 'getRapidBoardId requires parameter [board_id]'
+        return 'getRapidBoardId requires parameter [board_id]', 400
     
     if 'board_name' in request.args:
         board_name = request.args['board_name']
     else:
-        return 'getRapidBoardId requires parameter [board_name]'
+        return 'getRapidBoardId requires parameter [board_name]', 400
         
     url = "{0}/rest/greenhopper/latest/sprintquery/{1}".format(config.base_url, board_id)
     r = requests.get(url, auth=(config.user, config.password))
     sprints = json.loads(r.text)
     for sprint in sprints['sprints']:
         if sprint['state'] == "ACTIVE" and board_name in sprint['name']:
-            return json.dumps({"sprint_name": sprint['name']})
+            return json.dumps({"sprint_name": sprint['name']}), 200
 	
-    return "No matching sprint found"
+    return "No matching sprint found", 400
     
 if __name__ == "__main__":
     app.run()
