@@ -4,15 +4,12 @@ import config
 import requests
 import json
 import lxml.html
-import webbrowser
-import threading
 
 app = Flask(__name__, static_url_path='')
 
 @app.route("/")
 def root():
     return app.send_static_file('index.html')
-
 
 @app.route("/getBlockedIssues")
 def getBlockedIssues():
@@ -76,7 +73,6 @@ def getLatestSprint(id):
 if __name__ == "__main__":
     board_id = getRapidBoardId(config.board)
     sprint_name = getLatestSprint(board_id)
-    threading.Timer(5, lambda: webbrowser.open('http://localhost:5000') ).start()
     app.run()
     
     
