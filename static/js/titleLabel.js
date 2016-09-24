@@ -1,3 +1,4 @@
 setTitleLabel = function(){
-  $("#title-label").text(SPRINT_NAME + " - " + (new Date()).getDate())
+  var today = new Date().toLocaleDateString("en-GB");
+  $("#title-label").text(SPRINT_NAME + " - " + today)
 }
