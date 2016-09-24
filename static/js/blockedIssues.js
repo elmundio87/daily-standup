@@ -51,6 +51,7 @@ getBlockedIssues = function(){
   $.get( API_URL + "/getBlockedIssues", { sprint_name: SPRINT_NAME } )
     .done(function( data ) {
       blockedIssuesHandler(data)
+      $("#loader").addClass("hidden")
     })
     
 }
