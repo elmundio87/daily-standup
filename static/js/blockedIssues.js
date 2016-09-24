@@ -1,8 +1,14 @@
 blockedIssuesHandler = function(data){
   
-  html = $("#blocked_issue_cards").empty()
+  blocked_issue_cards = $("#blocked_issue_cards").clone().empty()
 
   json = JSON.parse(data)
+  
+  if(json.hasOwnProperty('error')){
+    $("#blocked_issue_cards").text(json['error'])
+    return
+  }
+  
   for (var entry in json.issues) {
     
     issue = json.issues[entry]
@@ -31,10 +37,12 @@ blockedIssuesHandler = function(data){
     card.append(jira_status)
     card.append(jira_description)
     
-    html.append(card)
+    blocked_issue_cards.append(card)
   }
   
-  $("#card-container").html(html)
+  if( blocked_issue_cards.html() != $("#blocked_issue_cards").html()){
+    $("#blocked_issue_cards").html(blocked_issue_cards.html())
+  }
   
 }
 

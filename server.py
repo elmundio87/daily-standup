@@ -31,6 +31,10 @@ def getBlockedIssues():
     for issue in with_customer:
         issues.append({"key":issue.key, "status":issue.fields.status.name, "description":issue.fields.summary, "flagged": False})
 
+
+    if len(issues) == 0:
+        return json.dumps({"error": "No blocked issues found."})
+        
     return json.dumps({"issues":issues,"base_url":config.base_url})
     
 @app.route("/getSprintGoals")
