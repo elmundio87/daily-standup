@@ -18,14 +18,18 @@ def root():
 def getBlockedIssues():
 	
     jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
-    blocked = all_proj_issues_but_mine = jira.search_issues('Status NOT IN (Closed, Resolved) AND (Flagged = Impediment OR Status = "With Customer") AND Sprint = "{0}"'.format(sprint_name))
-
+    flagged  = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
+    with_customer = jira.search_issues('Status NOT IN (Closed, Resolved) AND Status = "With Customer" AND Sprint = "{0}"'.format(sprint_name))
+    
     issues = []
 
-    for issue in blocked:
-        issues.append({"key":issue.key, "status":issue.fields.status.name, "description":issue.fields.summary})
+    for issue in flagged:
+        issues.append({"key":issue.key, "status":issue.fields.status.name, "description":issue.fields.summary, "flagged": True})
+        
+    for issue in with_customer:
+        issues.append({"key":issue.key, "status":issue.fields.status.name, "description":issue.fields.summary, "flagged": False})
 
-    return json.dumps(issues)
+    return json.dumps({"issues":issues,"base_url":config.base_url})
     
 @app.route("/getSprintGoals")
 def getSprintGoals():
