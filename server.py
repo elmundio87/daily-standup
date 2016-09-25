@@ -16,8 +16,8 @@ def check_auth(username, password):
     """
     h = SHA256.new()
     h.update(password)
-    password_sha256 = h.hexdigest()
-    return username == 'admin' and password_sha256 == config.password_sha256
+    auth_password_sha256 = h.hexdigest()
+    return username == config.auth_username and auth_password_sha256 == config.auth_password_sha256
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -56,7 +56,7 @@ def getBlockedIssues():
     else:
         return 'getBlockedIssues requires parameter [sprint_name]', 400
     
-    jira = JIRA(config.base_url, basic_auth=(config.user, config.password))
+    jira = JIRA(config.base_url, basic_auth=(config.atlassian_username, config.atlassian_password))
     flagged  = jira.search_issues('Status NOT IN (Closed, Resolved) AND Flagged = Impediment AND Sprint = "{0}"'.format(sprint_name))
     with_customer = jira.search_issues('Status NOT IN (Closed, Resolved) AND Status = "With Customer" AND Sprint = "{0}"'.format(sprint_name))
     
@@ -84,7 +84,7 @@ def getSprintGoals():
         return 'getBlockedIssues requires parameter [sprint_name]'
 
     url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(config.base_url, sprint_name.replace(" ","+").replace("#",""))
-    r = requests.get(url, auth=(config.user, config.password))
+    r = requests.get(url, auth=(config.atlassian_username, config.atlassian_password))
     r.raise_for_status
 
     tree = lxml.html.fromstring(r.text)
@@ -112,7 +112,7 @@ def getRapidBoardId():
         return 'getRapidBoardId requires parameter [board_name]'
     
     url = "{0}/rest/greenhopper/1.0/rapidview".format(config.base_url)
-    r = requests.get(url, auth=(config.user, config.password))
+    r = requests.get(url, auth=(config.atlassian_username, config.atlassian_password))
     boards = json.loads(r.text)
     for board in boards['views']:
         if board['name'] == board_name:
@@ -134,7 +134,7 @@ def getSprintName():
         return 'getRapidBoardId requires parameter [board_name]', 400
         
     url = "{0}/rest/greenhopper/latest/sprintquery/{1}".format(config.base_url, board_id)
-    r = requests.get(url, auth=(config.user, config.password))
+    r = requests.get(url, auth=(config.atlassian_username, config.atlassian_password))
     sprints = json.loads(r.text)
     for sprint in sprints['sprints']:
         if sprint['state'] == "ACTIVE" and board_name in sprint['name']:
