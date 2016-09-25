@@ -20,8 +20,9 @@
   
 
     Username: <input id="login_user" type="text" name="username">
-    Password: <input id="login_pass" type="password" name="password">
-    <input type="submit" value="Submit" onclick="tryLoginFromSubmitButton()">
+    Password: <input id="login_pass" type="password" name="password"
+    onkeydown = "if (event.keyCode == 13){$('#login_submit').click()}" >
+    <input id="login_submit" type="submit" value="Submit" onclick="tryLoginFromSubmitButton()">
 
 </body>
 </html>
