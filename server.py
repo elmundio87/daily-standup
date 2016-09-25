@@ -32,6 +32,7 @@ def requires_auth(f):
     return decorated
 
 @app.route('/')
+@requires_auth
 def index():
     return "Hello world", 200
 

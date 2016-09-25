@@ -3,7 +3,7 @@ $.ajax({
   type: "GET",
   url: API_URL + "/getRapidBoardId",
   headers: {
-    "Authorization": make_base_auth(username, password)
+    "Authorization": make_base_auth(localStorage.getItem("username"), localStorage.getItem("password"))
   },
   data: { board_name: board_name },
 }).done(function (data){
@@ -19,7 +19,7 @@ getSprintName = function(board_id, board_name){
     type: "GET",
     url: API_URL + "/getSprintName",
     headers: {
-      "Authorization": make_base_auth(username, password)
+      "Authorization": make_base_auth(localStorage.getItem("username"), localStorage.getItem("password"))
     },
     data: { board_id: board_id, board_name: board_name }
   }).done(function (data){
@@ -32,6 +32,7 @@ getSprintName = function(board_id, board_name){
   
 }
 
+tryLoginFromStoredCredentials()
 
 try{
   board_name = getUrlParameter("board_name").replace("+"," ")

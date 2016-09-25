@@ -4,7 +4,7 @@ getSprintGoals = function(){
     type: "GET",
     url: API_URL + "/getSprintGoals",
     headers: {
-      "Authorization": make_base_auth(username, password)
+      "Authorization": make_base_auth(localStorage.getItem("username"), localStorage.getItem("password"))
     },
     data: { sprint_name: SPRINT_NAME }
   }).done(function (data){
