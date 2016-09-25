@@ -70,7 +70,7 @@ def getBlockedIssues():
 
 
     if len(issues) == 0:
-        return json.dumps({"error": "No blocked issues found."})
+        return json.dumps({"error": "No blocked issues found. Any issue that is flagged or 'With Customer' is counted as 'Blocked'"})
         
     return json.dumps({"issues":issues,"base_url":config.base_url}), 200
     

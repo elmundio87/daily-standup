@@ -9,6 +9,8 @@ $.ajax({
 }).done(function (data){
   board_id = JSON.parse(data)['board_id']
   getSprintName(board_id, board_name)
+}).fail(function(){
+  window.location.href = 'index.html'
 })
     
 }
