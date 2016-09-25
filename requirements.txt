@@ -3,3 +3,4 @@ lxml==3.6.4
 requests==2.10.0
 zappa
 flask
+pycrypto

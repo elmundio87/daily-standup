@@ -36,8 +36,7 @@ tryLogin = function(username, password, redirect){
         window.location.href = 'index.html';
       }
     }).fail(function(){
-      $("#login_user").val("")
-      $("#login_pass").val("")
+      window.location.href = 'login.html';
     })
     
 }

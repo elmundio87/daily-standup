@@ -1,11 +1,12 @@
 from functools import wraps
 from flask import Flask, request, Response
-from flask_s3 import FlaskS3
 from jira import JIRA
+import sys
 import config
 import requests
 import json
 import lxml.html
+from Crypto.Hash import SHA256
 
 app = Flask(__name__)
 
@@ -13,7 +14,10 @@ def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    return username == 'admin' and password == 'secret'
+    h = SHA256.new()
+    h.update(password)
+    password_sha256 = h.hexdigest()
+    return username == 'admin' and password_sha256 == config.password_sha256
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
