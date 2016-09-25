@@ -1,23 +1,37 @@
 getRapidBoardId = function(board_name){
-$.get( API_URL + "/getRapidBoardId", { board_name: board_name } )
-  .done(function( data ) {
-
-      board_id = JSON.parse(data)['board_id']
-      getSprintName(board_id, board_name)
-
-  })
+$.ajax({
+  type: "GET",
+  url: API_URL + "/getRapidBoardId",
+  headers: {
+    "Authorization": make_base_auth(username, password)
+  },
+  data: { board_name: board_name },
+}).done(function (data){
+  board_id = JSON.parse(data)['board_id']
+  getSprintName(board_id, board_name)
+})
+    
 }
 
-getSprintName = function(board_id,board_name){
-$.get( API_URL + "/getSprintName", { board_id: board_id, board_name: board_name } )
-  .done(function( data ) {
+getSprintName = function(board_id, board_name){
+
+  $.ajax({
+    type: "GET",
+    url: API_URL + "/getSprintName",
+    headers: {
+      "Authorization": make_base_auth(username, password)
+    },
+    data: { board_id: board_id, board_name: board_name }
+  }).done(function (data){
     SPRINT_NAME = JSON.parse(data)['sprint_name']
     getSprintGoals()
     getBlockedIssues()
     setTitleLabel()
     setInterval(getBlockedIssues, 30000)
   })
+  
 }
+
 
 try{
   board_name = getUrlParameter("board_name").replace("+"," ")

@@ -1,4 +1,5 @@
-from flask import Flask, request
+from functools import wraps
+from flask import Flask, request, Response
 from flask_s3 import FlaskS3
 from jira import JIRA
 import config
@@ -7,6 +8,28 @@ import json
 import lxml.html
 
 app = Flask(__name__)
+
+def check_auth(username, password):
+    """This function is called to check if a username /
+    password combination is valid.
+    """
+    return username == 'admin' and password == 'secret'
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
 
 @app.route('/')
 def index():
@@ -20,6 +43,7 @@ def after_request(response):
     return response
 
 @app.route("/getBlockedIssues")
+@requires_auth
 def getBlockedIssues():
     
     if 'sprint_name' in request.args:
@@ -46,6 +70,7 @@ def getBlockedIssues():
     return json.dumps({"issues":issues,"base_url":config.base_url}), 200
     
 @app.route("/getSprintGoals")
+@requires_auth
 def getSprintGoals():
 	
     if 'sprint_name' in request.args:
@@ -73,6 +98,7 @@ def getSprintGoals():
     return lxml.html.tostring(goals), 200
 
 @app.route("/getRapidBoardId")
+@requires_auth
 def getRapidBoardId():
     
     if 'board_name' in request.args:
@@ -89,6 +115,7 @@ def getRapidBoardId():
     return "No matching board found", 400
 
 @app.route("/getSprintName")
+@requires_auth
 def getSprintName():
     
     if 'board_id' in request.args:

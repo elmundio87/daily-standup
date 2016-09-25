@@ -48,10 +48,16 @@ blockedIssuesHandler = function(data){
 
 getBlockedIssues = function(){
 
-  $.get( API_URL + "/getBlockedIssues", { sprint_name: SPRINT_NAME } )
-    .done(function( data ) {
-      blockedIssuesHandler(data)
-      $("#loader").addClass("hidden")
-    })
-    
+  $.ajax({
+    type: "GET",
+    url: API_URL + "/getBlockedIssues",
+    headers: {
+      "Authorization": make_base_auth(username, password)
+    },
+    data: { sprint_name: SPRINT_NAME }
+  }).done(function (data){
+    blockedIssuesHandler(data)
+    $("#loader").addClass("hidden")
+  })
+      
 }
