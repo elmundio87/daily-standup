@@ -48,6 +48,9 @@ catch(ex){
   submit.attr('type', 'submit')
   submit.attr('value','Submit')
   
+  legend = $('<legend>')
+  legend.text('Choose Sprint Board')
+  
   datalist = $('<datalist>')
   datalist.attr('id','boards')
   option1 = $('<option>')
@@ -58,6 +61,7 @@ catch(ex){
   datalist.append(option1)
   datalist.append(option2)
   
+  form.append(legend)
   form.append(textbox)
   form.append(datalist)
   form.append(submit)
