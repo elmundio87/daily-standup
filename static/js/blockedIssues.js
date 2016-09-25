@@ -58,7 +58,7 @@ getBlockedIssues = function(){
   }).done(function (data){
     blockedIssuesHandler(data)
     $(".message").html("Rendering Blocked Issues")
-    $("#loader").addClass("hidden")
+    $("#loader").addClass("invisible")
   })
       
 }

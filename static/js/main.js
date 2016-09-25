@@ -29,6 +29,7 @@ getSprintName = function(board_id, board_name){
     getSprintGoals()
     getBlockedIssues()
     setTitleLabel()
+    setInterval(getSprintGoals, 30000)
     setInterval(getBlockedIssues, 30000)
   })
   
