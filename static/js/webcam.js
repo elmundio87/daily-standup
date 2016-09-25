@@ -7,9 +7,9 @@ function handleVideo(stream) {
 function videoError(e) {
 }
 
-  var videoShouldShow = location.search.split('video=')[1] ? location.search.split('video=')[1] : 'true';
+  var videoShouldShow = getUrlParameter('video');
 
-  if(videoShouldShow == "false"){
+  if(videoShouldShow != "on"){
     $("#videoElement").hide();
   }else{
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;

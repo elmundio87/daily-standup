@@ -36,6 +36,7 @@ tryLoginFromStoredCredentials()
 
 try{
   board_name = getUrlParameter("board_name").replace("+"," ")
+  $("#loading_image").attr('src','svg/gears.svg')
 }
 catch(ex){
   form = $('<form>')
@@ -51,6 +52,15 @@ catch(ex){
   legend = $('<legend>')
   legend.text('Choose Sprint Board')
   
+  videoLabel = $('<label>')
+  videoCheckbox = $('<input>')
+  videoCheckbox.attr("type","checkbox")
+  videoCheckbox.attr("name","video")
+  videoCheckbox.attr("checked","checked")
+  
+  videoLabel.append(videoCheckbox)
+  videoLabel.append("Mirror Webcam")
+  
   datalist = $('<datalist>')
   datalist.attr('id','boards')
   option1 = $('<option>')
@@ -62,6 +72,8 @@ catch(ex){
   datalist.append(option2)
   
   form.append(legend)
+  form.append(videoLabel)
+  form.append($('<br>'))
   form.append(textbox)
   form.append(datalist)
   form.append(submit)
