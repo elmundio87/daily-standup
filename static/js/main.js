@@ -41,14 +41,25 @@ catch(ex){
   form = $('<form>')
   form.attr("action","index.html")
   textbox = $('<input>')
-  textbox.attr('type','text')
+  textbox.attr('list','boards')
   textbox.attr('name','board_name')
   textbox.attr('placeholder',"Board Name")
   submit = $('<input>')
   submit.attr('type', 'submit')
   submit.attr('value','Submit')
   
+  datalist = $('<datalist>')
+  datalist.attr('id','boards')
+  option1 = $('<option>')
+  option1.attr('value','Pack 1')
+  option2 = $('<option>')
+  option2.attr('value','Pack 2')
+  
+  datalist.append(option1)
+  datalist.append(option2)
+  
   form.append(textbox)
+  form.append(datalist)
   form.append(submit)
   
   $(".message").html(form)

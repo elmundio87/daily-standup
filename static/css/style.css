@@ -94,8 +94,7 @@ h2 {
 #loader img {
   width: 400px;
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 20%;
   margin: auto;
   left: 0;
   right: 0;
@@ -110,4 +109,5 @@ h2 {
   width: 700px;
   font-size: 36px;
   text-align: center;
+  bottom: 100px;
 }
