@@ -128,3 +128,21 @@ h2 {
   text-align: center;
   font-size: 72px;
 }
+
+.minicard {
+  font-size: 14px;
+  margin: 2px;
+  width: 70%;
+  padding: 5px;
+}
+
+.minicard .jira_id {
+  float: left;
+  margin-right: 5px;
+}
+
+.minicard .jira_description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
