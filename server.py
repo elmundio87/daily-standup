@@ -98,7 +98,7 @@ def getSprintGoals():
         	goals = element.find('ul')
 
     if goals == None:
-        return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url), 400
+        return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url), 200
 
     return lxml.html.tostring(goals), 200
     
@@ -126,7 +126,7 @@ def getSprintActions():
         	goals = element.find('ul')
 
     if goals == None:
-        return "No Sprint actions found in {0}. Please ensure that {0} exists, and that there is a section called 'Actions' that contains a list.".format(url), 400
+        return "No Sprint actions found in {0}. Please ensure that {0} exists, and that there is a section called 'Actions' that contains a list.".format(url), 200
 
     return lxml.html.tostring(goals), 200
 
@@ -145,7 +145,7 @@ def getRapidBoardId():
     for board in boards['views']:
         if board['name'] == board_name:
             return json.dumps({"board_id": board['id']}), 200
-    return "No matching board found", 400
+    return "No matching board found", 200
 
 @app.route("/getSprintName")
 @requires_auth
