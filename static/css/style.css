@@ -17,6 +17,7 @@
 }
 
 .card {
+  border-radius: 5px;
   border: 2px outset;
   margin: 5px;
   padding: 10px;
@@ -31,35 +32,9 @@
 #title-label {
   position: absolute;
   right: 20px;
-  top: 10px;
+  bottom: 10px;
   margin: 0px;
   font-size: 20px;
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-.sprint-goals li {
-  font-size: 18px;
-  font-weight:normal;
-  padding-left: 0px;
-}
-
-.sprint-goals > ul {
-  padding-left: 10px;
-  list-style-type: none;
-}
-
-.sprint-goals > ul > li {
-  font-size: 16px;
-  margin-top: 10px;
-  font-weight: bold;
-  padding-left: 0px;
-}
-
-.sprint-goals > ul > li > ul {
-  padding-left: 20px;
 }
 
 #videoElement {
@@ -132,7 +107,7 @@ h2 {
 .minicard {
   font-size: 14px;
   margin: 2px;
-  width: 70%;
+  width: 90%;
   padding: 5px;
 }
 
@@ -145,4 +120,8 @@ h2 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.row {
+  margin: 10px;
 }
