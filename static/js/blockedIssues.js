@@ -7,6 +7,7 @@ blockedIssuesHandler = function(data){
   
   if(json.hasOwnProperty('error')){
     $("#blocked_issue_cards").text(json['error'])
+    $("#with_customer_issue_cards").text(json['error'])
     return
   }
   

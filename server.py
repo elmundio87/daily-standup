@@ -81,7 +81,7 @@ def getSprintGoals():
     if 'sprint_name' in request.args:
         sprint_name = request.args['sprint_name']
     else:
-        return 'getBlockedIssues requires parameter [sprint_name]'
+        return 'getSprintGoals requires parameter [sprint_name]'
 
     url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(config.base_url, sprint_name.replace(" ","+").replace("#",""))
     r = requests.get(url, auth=(config.atlassian_username, config.atlassian_password))
@@ -99,6 +99,34 @@ def getSprintGoals():
 
     if goals == None:
         return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url), 400
+
+    return lxml.html.tostring(goals), 200
+    
+@app.route("/getSprintActions")
+@requires_auth
+def getSprintActions():
+	
+    if 'sprint_name' in request.args:
+        sprint_name = request.args['sprint_name']
+    else:
+        return 'getSprintActions requires parameter [sprint_name]'
+
+    url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(config.base_url, sprint_name.replace(" ","+").replace("#",""))
+    r = requests.get(url, auth=(config.atlassian_username, config.atlassian_password))
+    r.raise_for_status
+
+    tree = lxml.html.fromstring(r.text)
+
+    elements = tree.find_class("innerCell")
+
+    goals = None
+
+    for element in elements:
+        if ">Actions<" in lxml.html.tostring(element):
+        	goals = element.find('ul')
+
+    if goals == None:
+        return "No Sprint actions found in {0}. Please ensure that {0} exists, and that there is a section called 'Actions' that contains a list.".format(url), 400
 
     return lxml.html.tostring(goals), 200
 

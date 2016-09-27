@@ -28,9 +28,11 @@ getSprintName = function(board_id, board_name){
     SPRINT_NAME = JSON.parse(data)['sprint_name']
     getSprintGoals()
     getBlockedIssues()
+    getSprintActions()
     setTitleLabel()
     setInterval(getSprintGoals, 30000)
     setInterval(getBlockedIssues, 30000)
+    setInterval(getSprintActions, 30000)
   })
   
 }
