@@ -5,10 +5,10 @@ function make_base_auth(user, password) {
 }
 
 tryLoginFromStoredCredentials = function(){
-  if(localStorage.getItem("username") == null || 
+  if(localStorage.getItem("username") == null ||
     localStorage.getItem("password") == null ||
     localStorage.getItem("username") == "undefined" ||
-    localStorage.getItem("password") == "undefined" 
+    localStorage.getItem("password") == "undefined"
   ){
     window.location.href = 'login.html';
   }
@@ -20,9 +20,9 @@ tryLoginFromSubmitButton = function(){
 }
 
 tryLogin = function(username, password, redirect){
-  
+
     redirect = redirect || false;
-  
+
     $.ajax({
       type: "GET",
       url: API_URL + "/",
@@ -38,5 +38,5 @@ tryLogin = function(username, password, redirect){
     }).fail(function(){
       window.location.href = 'login.html';
     })
-    
+
 }

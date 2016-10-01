@@ -14,31 +14,62 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css">
+
+  <script src="properties/urls.js"></script>
+  <script src="js/authentication.js"></script>
+  <script src="js/api_setup.js"></script>
+  <script src="js/getUrlParameter.js"></script>
+
 </head>
 <body>
-
   <div id="loader">
     <h1>DevOpsGuys Standup Dashboard</h1>
     <img id="loading_image" src="https://pbs.twimg.com/profile_images/672098074995638272/Q6Oy0m4X.png" alt="Logo">
-    <div class="message">
-      <form action="board.html">
-        <legend>Choose Sprint Board</legend>
-        <label>
-          <input type="checkbox" name="video" checked="checked">Mirror Webcam
-        </label>
-        <br>
-        <input list="boards" name="board_name" placeholder="Board Name">
-        <datalist id="boards">
-          <option value="Pack 1"></option>
-          <option value="Pack 2"></option>
-        </datalist>
-        <input type="submit" value="Submit">
-      </form>
-    </div>
+    <div class="message">Loading...</div>
   </div>
+  <div class="container-fluid">
+    <div class="col-md-4">
+      <div class="row">
+        <h2>Sprint Goals</h2>
+        <div id="sprint-goals">
+          Loading...
+        </div>
+      </div>
+      <div class="row">
+        <h2>Actions</h2>
+        <div id="sprint-actions">
+          Loading...
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <h2>Blocked Issues</h2>
+        <div id="blocked_issue_cards" class="card-container">
+          Loading...
+        </div>
+      </div>
 
-<script src="properties/urls.js"></script>
-<script src="js/authentication.js"></script>
-<script> tryLoginFromStoredCredentials() </script>
+      <div class="row">
+        <h2>With Customer</h2>
+        <div id="with_customer_issue_cards" class="card-container">
+          Loading...
+        </div>
+      </div>
+  </div>
+  <div>
+    <h2 id="title-label">
+    </h2>
+  </div>
+<video autoplay="true" id="videoElement" class="draggable"></video>
+
+<script src="js/webcam.js"></script>
+<script src="js/draggable.js"></script>
+<script src="js/sprintGoals.js"></script>
+<script src="js/blockedIssues.js"></script>
+<script src="js/sprintActions.js"></script>
+<script src="js/titleLabel.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>

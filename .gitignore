@@ -1,6 +1,5 @@
 config.py
 *.pyc
 .DS_Store
-index.html
 env/
 static/properties/*.js
