@@ -125,3 +125,22 @@
 .row {
   margin: 10px;
 }
+
+.with-customer-jira-id {
+  margin-right:5px;
+}
+
+.panel-sprint-goals {
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.panel-sprint-actions {
+  height: 20vh;
+  overflow-y: scroll;
+}
+
+.panel-blocked, .panel-with-customer {
+  height: 45vh;
+  overflow-y: scroll;
+}

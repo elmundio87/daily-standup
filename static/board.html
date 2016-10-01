@@ -30,7 +30,7 @@
   <div class="container-fluid">
     <div class="col-md-4">
       <div class="row">
-        <div class="panel panel-default">
+        <div class="panel panel-default panel-sprint-goals">
           <div class="panel-heading">
               <h3 class="panel-title">Sprint Goals</h3>
           </div>
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="panel panel-default">
+        <div class="panel panel-default panel-sprint-actions">
           <div class="panel-heading">
               <h3 class="panel-title">Actions</h3>
           </div>
@@ -52,16 +52,27 @@
     </div>
     <div class="col-md-8">
       <div class="row">
-        <h2>Blocked Issues</h2>
-        <div id="blocked_issue_cards" class="card-container">
-          Loading...
+        <div class="panel panel-default panel-blocked">
+          <div class="panel-heading">
+              <h3 class="panel-title">Blocked Issues</h3>
+          </div>
+          <div class="panel-body">
+            <div id="blocked_issue_cards" class="card-container">
+              Loading...
+            </div>
+          </div>
         </div>
       </div>
-
       <div class="row">
-        <h2>With Customer</h2>
-        <div id="with_customer_issue_cards" class="card-container">
-          Loading...
+        <div class="panel panel-default panel-with-customer">
+          <div class="panel-heading">
+              <h3 class="panel-title">With Customer</h3>
+          </div>
+          <ul class="list-group">
+            <li id="with_customer_issue_cards" class="list-group-item">
+              Loading...
+            </li>
+          </ul>
         </div>
       </div>
   </div>
