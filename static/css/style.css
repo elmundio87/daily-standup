@@ -37,13 +37,6 @@
   font-size: 20px;
 }
 
-#videoElement {
-	position: absolute;
-	bottom: 10px;
-	left: 10px;
-	height: 250px;
-}
-
 .card_jira_id {
   float: left;
   width: 50%;
@@ -130,8 +123,15 @@
   margin-right:5px;
 }
 
+#webcam {
+  height: 30vh;
+  bottom: 0px;
+  left: 12vh;
+  position: fixed;
+}
+
 .panel-sprint-goals {
-  height: 50vh;
+  height: 45vh;
   overflow-y: scroll;
 }
 
@@ -143,4 +143,13 @@
 .panel-blocked, .panel-with-customer {
   height: 45vh;
   overflow-y: scroll;
+}
+
+.panel {
+  margin-bottom: 1vh !important;
+}
+
+.col-md-8, .col-md-4 {
+  padding-left: 0px;
+  padding-right: 0px;
 }

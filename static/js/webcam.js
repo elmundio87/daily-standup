@@ -1,4 +1,4 @@
-var video = document.querySelector("#videoElement");
+var video = document.querySelector("#webcam");
 
 function handleVideo(stream) {
 	video.src = window.URL.createObjectURL(stream);
@@ -10,7 +10,7 @@ function videoError(e) {
   var videoShouldShow = getUrlParameter('video');
 
   if(videoShouldShow != "on"){
-    $("#videoElement").hide();
+    $("#webcam").hide();
   }else{
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 
