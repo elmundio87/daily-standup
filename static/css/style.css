@@ -126,7 +126,7 @@
 #webcam {
   height: 30vh;
   bottom: 0px;
-  left: 12vh;
+  left: 0px;
   position: fixed;
 }
 
