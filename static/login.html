@@ -12,17 +12,28 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
   <script src="properties/urls.js"></script>
   <script src="js/authentication.js"></script>
 </head>
 <body>
 
-
-    Username: <input id="login_user" type="text" name="username">
-    Password: <input id="login_pass" type="password" name="password"
-    onkeydown = "if (event.keyCode == 13){$('#login_submit').click()}" >
-    <input id="login_submit" type="submit" value="Submit" onclick="tryLoginFromSubmitButton()">
+  <div class="container">
+  	<div class="login-container">
+              <div id="output"></div>
+              <div class="avatar"></div>
+              <div class="form-box">
+                  <div>
+                      <input id="login_user" name="user" type="text" placeholder="username"
+                      onkeydown = "if (event.keyCode == 13){$('#login_submit').click()}">
+                      <input id="login_pass" type="password" placeholder="password"
+                      onkeydown = "if (event.keyCode == 13){$('#login_submit').click()}">
+                      <button id="login_submit"  class="btn btn-info btn-block login" type="submit" onclick="tryLoginFromSubmitButton()">Login</button>
+                  </div>
+              </div>
+          </div>
+          
+  </div>
 
 </body>
 </html>
