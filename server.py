@@ -8,8 +8,18 @@ import json
 import lxml.html
 import expiring_certs
 from Crypto.Hash import SHA256
+import time
+from dateutil import rrule
+from datetime import datetime
 
 app = Flask(__name__)
+
+def get_working_days(date_start_obj, date_end_obj):
+    weekdays = rrule.rrule(rrule.DAILY, byweekday=range(0, 5), dtstart=date_start_obj, until=date_end_obj)
+    weekdays = len(list(weekdays))
+    if int(time.strftime('%H')) >= 18:
+        weekdays -= 1
+    return weekdays
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -148,6 +158,28 @@ def getRapidBoardId():
             return json.dumps({"board_id": board['id']}), 200
     return "No matching board found", 200
 
+@app.route("/getSprintDaysRemaining")
+@requires_auth
+def getSprintDaysRemaining():
+    
+    if 'board_id' in request.args:
+        board_id = request.args['board_id']
+    else:
+        return 'getSprintEndDate requires parameter [board_id]', 400
+    
+    if 'sprint_id' in request.args:
+        sprint_id = request.args['sprint_id']
+    else:
+        return 'getSprintEndDate requires parameter [sprint_id]', 400
+
+    url = "{0}/rest/greenhopper/1.0/rapid/charts/sprintreport/?rapidViewId={1}&sprintId={2}".format(config.base_url, board_id, sprint_id)
+    r = requests.get(url, auth=(config.atlassian_username, config.atlassian_password))
+    sprint_report = json.loads(r.text)
+
+    endDate = datetime.strptime(sprint_report["sprint"]["endDate"], '%d/%b/%y %H:%M %p')
+    
+    return "{0}".format(abs((endDate - datetime.now()).days)), 200
+
 @app.route("/getSprintName")
 @requires_auth
 def getSprintName():
@@ -167,7 +199,7 @@ def getSprintName():
     sprints = json.loads(r.text)
     for sprint in sprints['sprints']:
         if sprint['state'] == "ACTIVE" and board_name in sprint['name']:
-            return json.dumps({"sprint_name": sprint['name']}), 200
+            return json.dumps({"sprint_name": sprint['name'], "sprint_id": sprint['id']}), 200
 	
     return "No matching sprint found", 400
     

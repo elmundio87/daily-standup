@@ -9,10 +9,11 @@ getSprintName = function(board_id, board_name){
     data: { board_id: board_id, board_name: board_name }
   }).done(function (data){
     SPRINT_NAME = JSON.parse(data)['sprint_name']
+    SPRINT_ID = JSON.parse(data)['sprint_id']
     getSprintGoals()
     getBlockedIssues()
     getSprintActions()
-    setTitleLabel()
+    setTitleLabel(board_id, SPRINT_ID)
     setInterval(getSprintGoals, 30000)
     setInterval(getBlockedIssues, 30000)
     setInterval(getSprintActions, 30000)
