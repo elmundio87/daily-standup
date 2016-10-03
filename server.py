@@ -6,6 +6,7 @@ import config
 import requests
 import json
 import lxml.html
+import expiring_certs
 from Crypto.Hash import SHA256
 
 app = Flask(__name__)
@@ -169,6 +170,16 @@ def getSprintName():
             return json.dumps({"sprint_name": sprint['name']}), 200
 	
     return "No matching sprint found", 400
+    
+@app.route("/getExpiringCertificates")
+def getExpiringCertificates():
+    
+    if 'board_name' in request.args:
+        board_name = request.args['board_name']
+    else:
+        return 'getExpiringCertificates requires parameter [board_name]', 400
+    
+    return expiring_certs.get_expiring_certs(board_name), 200
     
 if __name__ == "__main__":
     app.run()
