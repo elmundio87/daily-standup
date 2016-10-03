@@ -146,10 +146,10 @@
 }
 
 #webcam {
-  height: 30vh;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
+  height: 28vh;
+  width: 100%;
+  background-color: #CCC;
+  border-radius: 8px;
 }
 
 #panel-sprint-goals {
