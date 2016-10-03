@@ -20,6 +20,16 @@
   width: 30%;
 }
 
+.page-header {
+  margin: 0px !important;
+  padding: 0px !important;
+  text-align: center;
+}
+
+.page-header small {
+  margin-left: 10px;
+}
+
 .no-bullet-points {
   list-style-type: none;
   margin-left: -40px;
@@ -49,14 +59,6 @@
   -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
   -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
   box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-}
-
-#title-label {
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-  margin: 0px;
-  font-size: 20px;
 }
 
 .card_jira_id {
@@ -146,14 +148,14 @@
 }
 
 #webcam {
-  height: 28vh;
+  height: 25vh;
   width: 100%;
   background-color: #CCC;
   border-radius: 8px;
 }
 
 #panel-sprint-goals {
-  height: 35vh;
+  height: 30vh;
   overflow-y: scroll;
 }
 
@@ -163,7 +165,7 @@
 }
 
 #panel-blocked, #panel-with-customer {
-  height: 45vh;
+  height: 47vh;
   overflow-y: scroll;
 }
 
