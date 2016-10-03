@@ -10,7 +10,6 @@ getBottomOfElement = function(element) {
   var offset = element.offset();
 
   var top = offset.top;
-  var left = offset.left;
 
   var bottom = top + element.outerHeight();
   return bottom
@@ -22,13 +21,13 @@ fitToPanel = function(panelId) {
   panelBody = $("#" + panelId)
   
   if( panelBody.text() != "" ){
-    debugger
     panelBody.css("font-size","1px");
     
-    while( getBottomOfElement(panel) > getBottomOfElement(panelBody) + 30) {
+    while( getBottomOfElement(panel) > getBottomOfElement(panelBody) + 20) {
       console.log("increasing font size");
       changeFontSize(panelBody,1);
     }
+    
     changeFontSize(panelBody,0.5);
     
   }

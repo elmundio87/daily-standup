@@ -127,7 +127,7 @@ def getSprintActions():
         	goals = element.find('ul')
 
     if goals == None:
-        return "No Sprint actions found in {0}. Please ensure that {0} exists, and that there is a section called 'Actions' that contains a list.".format(url), 200
+        return "No Sprint actions found in Confluence. Please ensure that <a href='{0}'>this page</a> exists, and that there is a section called 'Actions' that contains a list.".format(url), 200
 
     return lxml.html.tostring(goals), 200
 
