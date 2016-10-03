@@ -4,9 +4,8 @@ import datetime
 import json
 import expiring_certs_config as config
 
-output = []
-
 def get_expiring_certs(board_name):
+    output = []
     if board_name in config.sites.keys():
         for site in config.sites[board_name]:
             output.append(ssl_output_item(site))
