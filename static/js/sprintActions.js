@@ -46,7 +46,7 @@ getSprintActions = function(){
   
     for (var item in json){
       host = json[item]
-      if( host.days_remaining <= 400){
+      if( host.days_remaining <= 30){
         listitem = $("<li>")
         listitem.css("font-weight", "bold")
         listitem.text("SSL certificate for " + host.hostname + " will expire in " + host.days_remaining  + " days!")
