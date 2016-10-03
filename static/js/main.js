@@ -6,4 +6,9 @@ catch(ex){
   $(".message").html(form)
 }
 
+$( window ).resize(function() {
+  fitToPanel("sprint-actions")
+  fitToPanel("sprint-goals")
+});
+
 getRapidBoardId(board_name)

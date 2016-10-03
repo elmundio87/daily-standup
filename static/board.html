@@ -19,6 +19,8 @@
   <script src="js/authentication.js"></script>
   <script src="js/api_setup.js"></script>
   <script src="js/getUrlParameter.js"></script>
+  <script src="js/fit-text.js"></script>
+  
   <script> tryLoginFromStoredCredentials() </script>
 
 </head>
@@ -31,7 +33,7 @@
   <div class="container-fluid">
     <div class="col-md-4">
       <div class="row">
-        <div class="panel panel-default panel-sprint-goals">
+        <div id="panel-sprint-goals" class="panel panel-default">
           <div class="panel-heading">
               <h3 class="panel-title">Sprint Goals</h3>
           </div>
@@ -41,7 +43,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="panel panel-default panel-sprint-actions">
+        <div id="panel-sprint-actions" class="panel panel-default">
           <div class="panel-heading">
               <h3 class="panel-title">Actions</h3>
           </div>
@@ -56,7 +58,7 @@
     </div>
     <div class="col-md-8">
       <div class="row">
-        <div class="panel panel-default panel-blocked">
+        <div id="panel-blocked" class="panel panel-default">
           <div class="panel-heading">
               <h3 class="panel-title">Blocked Issues</h3>
           </div>
@@ -68,7 +70,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="panel panel-default panel-with-customer">
+        <div id="panel-with-customer" class="panel panel-default">
           <div class="panel-heading">
               <h3 class="panel-title">With Customer</h3>
           </div>

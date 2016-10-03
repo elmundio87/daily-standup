@@ -130,17 +130,17 @@
   position: fixed;
 }
 
-.panel-sprint-goals {
-  height: 45vh;
+#panel-sprint-goals {
+  height: 35vh;
   overflow-y: scroll;
 }
 
-.panel-sprint-actions {
-  height: 20vh;
+#panel-sprint-actions {
+  height: 30vh;
   overflow-y: scroll;
 }
 
-.panel-blocked, .panel-with-customer {
+#panel-blocked, #panel-with-customer {
   height: 45vh;
   overflow-y: scroll;
 }

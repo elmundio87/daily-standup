@@ -22,6 +22,8 @@ getSprintActions = function(){
   }).done(function (data){
     $(".message").html("Rendering Sprint Actions")
     $("#sprint-actions").html(data)
+    $("#sprint-actions").find("br").remove()
+    fitToPanel("sprint-actions")
   })
     
   
