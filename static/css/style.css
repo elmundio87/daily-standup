@@ -1,3 +1,25 @@
+.maximise {
+  position: fixed;
+  height: 100% !important;
+  width: 100% !important;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+}
+
+.maximise > .panel-heading {
+  cursor: -webkit-zoom-out;
+}
+
+.maximise > .panel-body {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.maximise .card {
+  width: 30%;
+}
+
 .no-bullet-points {
   list-style-type: none;
   margin-left: -40px;
@@ -147,6 +169,10 @@
 
 .panel {
   margin-bottom: 1vh !important;
+}
+
+.panel-heading {
+  cursor: -webkit-zoom-in;
 }
 
 .col-md-7, .col-md-5 {
