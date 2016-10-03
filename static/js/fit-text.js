@@ -18,8 +18,6 @@ getBottomOfElement = function(element) {
 
 fitToPanel = function(panelId) {
   
-  debugger
-  
   panel = $("#panel-" + panelId)
   panelBody = $("#" + panelId)
   
