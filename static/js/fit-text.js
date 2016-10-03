@@ -21,19 +21,16 @@ fitToPanel = function(panelId) {
   panel = $("#panel-" + panelId)
   panelBody = $("#" + panelId)
   
-  
-  if( getBottomOfElement(panel) > getBottomOfElement(panelBody) ) {
-    while( getBottomOfElement(panel) > getBottomOfElement(panelBody) + 10 ) {
+  if( panelBody.text() != "" ){
+    debugger
+    panelBody.css("font-size","1px");
+    
+    while( getBottomOfElement(panel) > getBottomOfElement(panelBody) + 30) {
       console.log("increasing font size");
       changeFontSize(panelBody,1);
     }
+    changeFontSize(panelBody,0.5);
+    
   }
-  else {
-    while( getBottomOfElement(panel) < getBottomOfElement(panelBody) - 10 ) {
-      console.log("decreasing font size");
-      changeFontSize(panelBody,-1);
-    }
-  }
-  
   
 }
