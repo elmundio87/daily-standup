@@ -3,3 +3,4 @@ config.py
 .DS_Store
 env/
 static/properties/*.js
+daily-standup-*

@@ -152,6 +152,7 @@
   width: 100%;
   background-color: #CCC;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 #panel-sprint-goals {
