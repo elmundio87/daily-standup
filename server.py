@@ -9,17 +9,24 @@ import lxml.html
 import expiring_certs
 from Crypto.Hash import SHA256
 import time
-from dateutil import rrule
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 app = Flask(__name__)
 
+def is_working_day(date):
+    return date.weekday() <= 4
+
 def get_working_days(date_start_obj, date_end_obj):
-    weekdays = rrule.rrule(rrule.DAILY, byweekday=range(0, 5), dtstart=date_start_obj, until=date_end_obj)
-    weekdays = len(list(weekdays))
-    if int(time.strftime('%H')) >= 18:
-        weekdays -= 1
-    return weekdays
+    
+    total_working_days = 0
+
+    date_range = [date_start_obj + timedelta(days=x) for x in range(0, (date_end_obj-date_start_obj).days)]
+
+    for date in date_range:
+        if is_working_day(date):
+            total_working_days += 1
+
+    return total_working_days
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -176,9 +183,10 @@ def getSprintDaysRemaining():
     r = requests.get(url, auth=(config.atlassian_username, config.atlassian_password))
     sprint_report = json.loads(r.text)
 
-    endDate = datetime.strptime(sprint_report["sprint"]["endDate"], '%d/%b/%y %H:%M %p')
+    startDate = date.today()
+    endDate = datetime.strptime(sprint_report["sprint"]["endDate"], '%d/%b/%y %H:%M %p').date()
     
-    return "{0}".format(abs((endDate - datetime.now()).days)), 200
+    return "{0}".format(get_working_days(startDate, endDate)), 200
 
 @app.route("/getSprintName")
 @requires_auth
