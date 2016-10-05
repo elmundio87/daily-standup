@@ -10,9 +10,10 @@ def get_expiring_certs(board_name):
         for site in config.sites[board_name]:
             output.append(ssl_output_item(site))
     return json.dumps(output)
-    
+
 def ssl_output_item(hostname):
-    return {"hostname": hostname, "days_remaining": ssl_valid_time_remaining(hostname)}
+    expire_date, error = ssl_expiry_datetime(hostname)
+    return {"hostname": hostname, "days_remaining": ssl_valid_time_remaining(hostname), "notAfter": "{:%B %d, %Y}".format(expire_date), "error": error}
 
 def ssl_expiry_datetime(hostname):
     ssl_date_fmt = r'%b %d %H:%M:%S %Y %Z'
@@ -29,12 +30,14 @@ def ssl_expiry_datetime(hostname):
         conn.connect((hostname, 443))
         ssl_info = conn.getpeercert()
         # parse the string from the certificate into a Python datetime object
-        return datetime.datetime.strptime(ssl_info['notAfter'], ssl_date_fmt)
-    except:
-        return datetime.datetime.now()
+        return datetime.datetime.strptime(ssl_info['notAfter'], ssl_date_fmt), ""
+    except Exception as ex:
+        return datetime.datetime.now(), str(ex)
 
 def ssl_valid_time_remaining(hostname):
     """Get the number of days left in a cert's lifetime."""
-    expires = ssl_expiry_datetime(hostname)
-    
+    expires, error = ssl_expiry_datetime(hostname)
+
     return (expires - datetime.datetime.utcnow()).days
+
+print get_expiring_certs("Pack 2")
