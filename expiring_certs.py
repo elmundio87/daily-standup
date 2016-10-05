@@ -39,5 +39,3 @@ def ssl_valid_time_remaining(hostname):
     expires, error = ssl_expiry_datetime(hostname)
 
     return (expires - datetime.datetime.utcnow()).days
-
-print get_expiring_certs("Pack 2")

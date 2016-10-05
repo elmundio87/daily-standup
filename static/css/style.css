@@ -181,3 +181,7 @@
   padding-left: 0px;
   padding-right: 0px;
 }
+
+.ssl_error {
+  color: red;
+}

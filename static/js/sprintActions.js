@@ -46,15 +46,45 @@ getSprintActions = function(){
   
     for (var item in json){
       host = json[item]
-      if( host.days_remaining <= 30){
-        listitem = $("<li>")
-        listitem.css("font-weight", "bold")
-        listitem.text("SSL certificate for " + host.hostname + " will expire in " + host.days_remaining  + " days!")
+      
+      listitem = $("<li>")
+      listitem.css("font-weight", "bold")
+      listitem.append("SSL cert for ")
+      link = $("<a>")
+      link.text(host.hostname)
+      link.attr('href',"https://" + host.hostname)
+      link.attr('target',"_blank")
+      listitem.append(link)
+      
+      if( host.error != ""){
+        listitem.attr('title',host.error)
+        listitem.addClass("ssl_error")
+        listitem.text("")
+        listitem.append(link)
+        if(host.error.indexOf("Connection refused") !== -1){
+          listitem.append(" IS OFFLINE")
+        }else{
+          listitem.append(" HAS AN INVALID SSL CERTIFICATE!")
+        }
         root.append(listitem)
       }
+      else if(host.days_remaining <= 0){
+          listitem.append(" HAS EXPIRED!!!")
+          root.append(listitem)
+      }
+      else if( host.days_remaining <= 30){
+        listitem.append(" will expire in " + host.days_remaining  + " days!")
+        root.append(listitem)
+      }
+      
     }
     
-    expiring_certs = root[0].outerHTML
+    report = $("<a>")
+    report.text("View all SSL Certs")
+    report.attr('target',"_blank")
+    report.attr('href',"ssl_certs.html?board_name=" + getUrlParameter("board_name") )
+    
+    expiring_certs = root[0].outerHTML + report[0].outerHTML
     updateSprintActions()
   })
   

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Standup Dashboard</title>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <script src="properties/urls.js"></script>
+  <script src="js/authentication.js"></script>
+  <script src="js/getUrlParameter.js"></script>
+  <script src="js/sorttable.js"></script>
+  <script> tryLoginFromStoredCredentials() </script>
+  <style>
+    td {
+      min-width: 200px;
+    }
+    thead tr {font-weight: bold}
+    tr:nth-child(even) {background: #CCC}
+    tr:nth-child(odd) {background: #FFF}
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width:100px;
+      font-size: 20px;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Sortable tables */
+    table.sortable thead td {
+        background-color:#eee;
+        color:#666666;
+        font-weight: bold;
+        cursor: pointer;
+    }
+  </style>
+
+</head>
+<body>
+<table class="sortable">
+  <thead>
+    <tr>
+      <td>Host</td>
+      <td>Expiry Date</td>
+      <td class="sorttable_numeric">Days Remaining</td>
+      <td>Error</td>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+  
+<div id="loading" >LOADING...</div>
+  <script>
+  $.ajax({
+    type: "GET",
+    url: API_URL + "/getExpiringCertificates",
+    data: { board_name: getUrlParameter("board_name").replace("+"," ") }
+  }).done(function (data){
+
+    $("#loading").addClass("hidden")
+
+    json = JSON.parse(data)
+    root = $('<ul>')
+
+    for (var item in json){
+      host = json[item]
+      
+      row =  $("<tr>")
+      col1 = $("<td>")
+      col2 = $("<td>")
+      col3 = $("<td>")
+      col4 = $("<td>")
+      
+      col1.text(host.hostname)
+      col2.text(host.notAfter)
+      col3.text(host.days_remaining)
+      col4.text(host.error)
+      
+      row.append(col1)
+      row.append(col2)
+      row.append(col3)
+      row.append(col4)
+      
+      $("tbody").append(row)
+    }
+
+  })
+  </script>
+  
+</body>
+
+</html>
