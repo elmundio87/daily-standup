@@ -14,6 +14,5 @@ sites["Pack 2"] = [
 "staging-urm.apmg-certified.com",
 "staging-bureauveritas.apmg-certified.com",
 "staging.ppp-certification.com",
-"dev.ppp-certification.com",
 "ppp-certification.com"
 ]

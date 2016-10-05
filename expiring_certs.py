@@ -3,6 +3,8 @@ import ssl
 import datetime
 import json
 import expiring_certs_config as config
+from pyasn1_modules import pem, rfc2459
+from pyasn1.codec.der import decoder as der_decoder
 
 def get_expiring_certs(board_name):
     output = []
@@ -18,21 +20,14 @@ def ssl_output_item(hostname):
 def ssl_expiry_datetime(hostname):
     ssl_date_fmt = r'%b %d %H:%M:%S %Y %Z'
 
-    context = ssl.create_default_context()
-    conn = context.wrap_socket(
-        socket.socket(socket.AF_INET),
-        server_hostname=hostname,
-    )
-    # 3 second timeout because Lambda has runtime limitations
-    conn.settimeout(3.0)
-
-    try:
-        conn.connect((hostname, 443))
-        ssl_info = conn.getpeercert()
-        # parse the string from the certificate into a Python datetime object
-        return datetime.datetime.strptime(ssl_info['notAfter'], ssl_date_fmt), ""
-    except Exception as ex:
-        return datetime.datetime.now(), str(ex)
+    pem_cert = ssl.get_server_certificate((hostname, 443))
+    der_cert = ssl.PEM_cert_to_DER_cert(pem_cert)
+    cert = der_decoder.decode(der_cert,asn1Spec=rfc2459.Certificate())[0]
+    tbs = cert.getComponentByName('tbsCertificate')
+    validity = tbs.getComponentByName('validity')
+    not_after = validity.getComponentByName('notAfter').getComponent()
+    
+    return datetime.datetime.strptime(str(not_after), '%y%m%d%H%M%SZ'),""
 
 def ssl_valid_time_remaining(hostname):
     """Get the number of days left in a cert's lifetime."""

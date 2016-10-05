@@ -4,3 +4,5 @@ requests==2.10.0
 zappa
 flask
 pycrypto
+pyasn1 
+pyasn1_modules
