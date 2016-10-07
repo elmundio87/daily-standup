@@ -8,4 +8,4 @@ API_URL=$(zappa status live | grep "API Gateway URL:" | sed 's|API Gateway URL:|
 mkdir -p static/properties
 echo "var API_URL = \"${API_URL}\"" > static/properties/urls.js
 
-aws s3 sync --include "*" static/ s3://static-dog-dailystandup-live --profile "daily-standup"
+aws s3 sync --delete static/ s3://static-dog-dailystandup-live --profile "daily-standup"
