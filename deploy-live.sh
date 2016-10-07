@@ -8,4 +8,7 @@ API_URL=$(zappa status live | grep "API Gateway URL:" | sed 's|API Gateway URL:|
 mkdir -p static/properties
 echo "var API_URL = \"${API_URL}\"" > static/properties/urls.js
 
-aws s3 sync --delete static/ s3://static-dog-dailystandup-live --profile "daily-standup" --debug
+aws_access_key_id="$(aws configure get aws_access_key_id --profile daily-standup)"
+aws_secret_access_key="$(aws configure get aws_secret_access_key --profile daily-standup)"
+
+s3cmd sync static/ s3://static-dog-dailystandup-live/ --access_key ${$aws_access_key_id} --secret_key ${aws_secret_access_key}

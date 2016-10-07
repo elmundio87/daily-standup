@@ -1,5 +1,6 @@
 #!/bin/bash
 
+pip install s3cmd
 pip install awscli
 
 aws configure set aws_access_key_id $aws_access_key_id --profile "daily-standup"
