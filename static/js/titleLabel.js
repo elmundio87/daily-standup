@@ -9,10 +9,10 @@ setTitleLabel = function(board_id, sprint_id){
     data: { board_id: board_id, sprint_id: sprint_id }
   }).done(function (data){
     var today = new Date().toLocaleDateString("en-GB");
-    var titleLabel = $("#title-label")
-    date = $("<small>")
-    date.text(data + " days remaining")
-    titleLabel.html(SPRINT_NAME + date[0].outerHTML )
-  })
+    var titleLabel = $("#title-label");
+    date = $("<small>");
+    date.text(data + " days remaining");
+    titleLabel.html(SPRINT_NAME + date[0].outerHTML );
+  });
   
-}
+};

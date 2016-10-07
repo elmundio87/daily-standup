@@ -3,7 +3,7 @@ changeFontSize = function(element, interval) {
   var newSize = parseInt(size.replace(/px/,"")) + interval;
   element.css("font-size",newSize);
   return newSize;
-}
+};
 
 getBottomOfElement = function(element) {
 
@@ -12,15 +12,15 @@ getBottomOfElement = function(element) {
   var top = offset.top;
 
   var bottom = top + element.outerHeight();
-  return bottom
-}
+  return bottom;
+};
 
 fitToPanel = function(panelId) {
   
-  panel = $("#panel-" + panelId)
-  panelBody = $("#" + panelId)
+  panel = $("#panel-" + panelId);
+  panelBody = $("#" + panelId);
   
-  if( panelBody.text() != "" ){
+  if( panelBody.text() !== "" ){
     panelBody.css("font-size","1px");
     
     while( getBottomOfElement(panel) > getBottomOfElement(panelBody) + 20) {
@@ -32,4 +32,4 @@ fitToPanel = function(panelId) {
     
   }
   
-}
+};

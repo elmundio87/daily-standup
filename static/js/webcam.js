@@ -23,4 +23,4 @@ $("#webcam").click(function(){
 	if (navigator.getUserMedia) {
 		navigator.getUserMedia({video: true}, handleVideo, videoError);
 	}
-})
+});

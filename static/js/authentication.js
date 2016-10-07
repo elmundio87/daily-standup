@@ -5,19 +5,19 @@ function make_base_auth(user, password) {
 }
 
 tryLoginFromStoredCredentials = function(){
-  if(localStorage.getItem("username") == null ||
-    localStorage.getItem("password") == null ||
+  if(localStorage.getItem("username") === null ||
+    localStorage.getItem("password") === null ||
     localStorage.getItem("username") == "undefined" ||
     localStorage.getItem("password") == "undefined"
   ){
     window.location.href = 'login.html';
   }
-  tryLogin(localStorage.getItem("username"),localStorage.getItem("password"))
-}
+  tryLogin(localStorage.getItem("username"),localStorage.getItem("password"));
+};
 
 tryLoginFromSubmitButton = function(){
-  tryLogin($("#login_user").val(), $("#login_pass").val(), true)
-}
+  tryLogin($("#login_user").val(), $("#login_pass").val(), true);
+};
 
 tryLogin = function(username, password, redirect){
 
@@ -37,6 +37,6 @@ tryLogin = function(username, password, redirect){
       }
     }).fail(function(){
       window.location.href = 'login.html';
-    })
+    });
 
-}
+};

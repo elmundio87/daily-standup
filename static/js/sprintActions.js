@@ -1,25 +1,25 @@
-var sprint_actions = ""
-var expiring_certs = ""
+var sprint_actions = "";
+var expiring_certs = "";
 
 updateSprintActions = function(){
-    $("#sprint-actions").html(sprint_actions + expiring_certs)
-    $("#sprint-actions").find("br").remove()
-    fitToPanel("sprint-actions")
-}
+    $("#sprint-actions").html(sprint_actions + expiring_certs);
+    $("#sprint-actions").find("br").remove();
+    fitToPanel("sprint-actions");
+};
 
 getSprintActions = function(){
     
   getLastSprintName = function(sprint_name){
-    sprint_name = sprint_name.replace("#","")
-    sprint_name_words = sprint_name.split(" ")  
+    sprint_name = sprint_name.replace("#","");
+    sprint_name_words = sprint_name.split(" ");
     
-    sprint_name_prefix = sprint_name_words.slice(0, sprint_name_words.length - 1).join(" ")
+    sprint_name_prefix = sprint_name_words.slice(0, sprint_name_words.length - 1).join(" ");
     
-    sprint_number = sprint_name_words[sprint_name_words.length - 1]  
-    last_sprint_number = sprint_number - 1
+    sprint_number = sprint_name_words[sprint_name_words.length - 1];
+    last_sprint_number = sprint_number - 1;
     
-    return sprint_name_prefix + " " + last_sprint_number 
-  }  
+    return sprint_name_prefix + " " + last_sprint_number;
+  };
   
   $.ajax({
     type: "GET",
@@ -29,63 +29,63 @@ getSprintActions = function(){
     },
     data: { sprint_name: getLastSprintName(SPRINT_NAME) }
   }).done(function (data){
-    $(".message").html("Rendering Sprint Actions")
-    sprint_actions = data
-    updateSprintActions()
-  })
+    $(".message").html("Rendering Sprint Actions");
+    sprint_actions = data;
+    updateSprintActions();
+  });
     
   $.ajax({
     type: "GET",
     url: API_URL + "/getExpiringCertificates",
     data: { board_name: board_name }
   }).done(function (data){
-    $(".message").html("Finding expiring certificates")
+    $(".message").html("Finding expiring certificates");
 
-    json = JSON.parse(data)
-    root = $('<ul>')
+    json = JSON.parse(data);
+    root = $('<ul>');
   
     for (var item in json){
-      host = json[item]
+      host = json[item];
       
-      listitem = $("<li>")
-      listitem.css("font-weight", "bold")
-      listitem.append("SSL cert for ")
-      link = $("<a>")
-      link.text(host.hostname)
-      link.attr('href',"https://" + host.hostname)
-      link.attr('target',"_blank")
-      listitem.append(link)
+      listitem = $("<li>");
+      listitem.css("font-weight", "bold");
+      listitem.append("SSL cert for ");
+      link = $("<a>");
+      link.text(host.hostname);
+      link.attr('href',"https://" + host.hostname);
+      link.attr('target',"_blank");
+      listitem.append(link);
       
-      if( host.error != ""){
-        listitem.attr('title',host.error)
-        listitem.addClass("ssl_error")
-        listitem.text("")
-        listitem.append(link)
+      if( host.error !== ""){
+        listitem.attr('title',host.error);
+        listitem.addClass("ssl_error");
+        listitem.text("");
+        listitem.append(link);
         if(host.error.indexOf("Connection refused") !== -1){
-          listitem.append(" IS OFFLINE")
+          listitem.append(" IS OFFLINE");
         }else{
-          listitem.append(" HAS AN INVALID SSL CERTIFICATE!")
+          listitem.append(" HAS AN INVALID SSL CERTIFICATE!");
         }
-        root.append(listitem)
+        root.append(listitem);
       }
       else if(host.days_remaining <= 0){
-          listitem.append(" HAS EXPIRED!!!")
-          root.append(listitem)
+          listitem.append(" HAS EXPIRED!!!");
+          root.append(listitem);
       }
       else if( host.days_remaining <= 30){
-        listitem.append(" will expire in " + host.days_remaining  + " days!")
-        root.append(listitem)
+        listitem.append(" will expire in " + host.days_remaining  + " days!");
+        root.append(listitem);
       }
       
     }
     
-    report = $("<a>")
-    report.text("View all SSL Certs")
-    report.attr('target',"_blank")
-    report.attr('href',"ssl_certs.html?board_name=" + getUrlParameter("board_name") )
+    report = $("<a>");
+    report.text("View all SSL Certs");
+    report.attr('target',"_blank");
+    report.attr('href',"ssl_certs.html?board_name=" + getUrlParameter("board_name") );
     
-    expiring_certs = root[0].outerHTML + report[0].outerHTML
-    updateSprintActions()
-  })
+    expiring_certs = root[0].outerHTML + report[0].outerHTML;
+    updateSprintActions();
+  });
   
-}
+};
