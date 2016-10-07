@@ -2,8 +2,8 @@
   position: fixed;
   height: 100% !important;
   width: 100% !important;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   z-index: 1000;
 }
 
@@ -21,8 +21,8 @@
 }
 
 .page-header {
-  margin: 0px !important;
-  padding: 0px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   text-align: center;
 }
 
@@ -56,9 +56,9 @@
   width: 48%;
   height: 100px;
   float: left;
-  -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-  -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-  box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+  -webkit-box-shadow: 4px 4px 5px 0 rgba(50, 50, 50, 0.75);
+  -moz-box-shadow:    4px 4px 5px 0 rgba(50, 50, 50, 0.75);
+  box-shadow:         4px 4px 5px 0 rgba(50, 50, 50, 0.75);
 }
 
 .card_jira_id {
@@ -100,7 +100,6 @@
 
 #loader .message {
   position: absolute;
-  bottom: 50px;
   margin: auto;
   left: 0;
   right: 0;
@@ -179,8 +178,8 @@
 }
 
 .col-md-7, .col-md-5 {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .ssl_error {
