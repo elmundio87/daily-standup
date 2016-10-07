@@ -10,6 +10,6 @@ env:
   - secure: a8S+DnmEImLPNaqR32byTjRFGyAvUQ7u8KO7rpz4csFEtrqpPPunfsPGPLH+rbBws27oPTp+Hm0fhPYDFY4NbODcBMeKl4OGFxI0+lOEj1zeuNDVBxS+RHwOcIK8pFo10s+iiZp4b97EDSC32ycc+HTsevRsOU2ef69sAqZmIhAUZfl0HNOwmE8W+5HBs5TqIFuZqiEQab2EnU9AgBhLZpEn02AdaxfAOpaOU9oFGsFG6LpGfbi5/1DCa5Jib0oGPGVuoXCzYXHl1CwJvWJ+4Fi5HBLh3Lqp5vXZBjjgUMXLFfxj3NL0dIIOcEruTjFP/jH+EQJpb6jW3zESMdvmJYJhBfu33b+SWGxqE2pd346TgJCxkipT9kDfB74NUFTeYchm7lar79eiElvIVA4Jf2CgujmQxgmSwY9qMME64992mDy4j0eA+BS7V5CoVlCo274YQylOkPkA+z94xtVCiKKZfWFYH0PyDnNd6K+OoQbQJwmqP+fUimPYRxjP1X18sDoRqp2IYq7UH7cxZMRlYHy+p6MXeSdLrKQlSaLD3ppRFzO9BAm+tGAn6OPdcygRV+FBsSK1nr6X6bQkxu6pGau+rqVqGbMWSTxOmSvD1cf3OjadxGPBejzbNEBqudTU/Cv1Dg2eM2z7k5iWuoF+pq1BgPdXusI/7Lw3jxCX9vY=
 before_install:
 - openssl aes-256-cbc -K $encrypted_ef58278c9052_key -iv $encrypted_ef58278c9052_iv
-  -in config.py.enc -out config.py -d
+  -in config/config.py.enc -out config/config.py -d
 install: pip install -r requirements.txt
 script: if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-deploy.sh; fi

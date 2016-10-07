@@ -2,7 +2,7 @@ import socket
 import ssl
 import datetime
 import json
-import expiring_certs_config as config
+from config import expiring_certs_config as config
 from pyasn1_modules import pem, rfc2459
 from pyasn1.codec.der import decoder as der_decoder
 
@@ -26,7 +26,7 @@ def ssl_expiry_datetime(hostname):
     tbs = cert.getComponentByName('tbsCertificate')
     validity = tbs.getComponentByName('validity')
     not_after = validity.getComponentByName('notAfter').getComponent()
-    
+
     return datetime.datetime.strptime(str(not_after), '%y%m%d%H%M%SZ'),""
 
 def ssl_valid_time_remaining(hostname):
