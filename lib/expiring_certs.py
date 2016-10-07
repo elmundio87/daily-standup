@@ -5,13 +5,14 @@ import json
 from config import expiring_certs_config as config
 from pyasn1_modules import pem, rfc2459
 from pyasn1.codec.der import decoder as der_decoder
+from multiprocessing.dummy import Pool as ThreadPool
 
 
 def get_expiring_certs(board_name):
     output = []
+    pool = ThreadPool(8)
     if board_name in config.sites.keys():
-        for site in config.sites[board_name]:
-            output.append(ssl_output_item(site))
+        output = pool.map(ssl_output_item, config.sites[board_name])
     return json.dumps(output)
 
 
