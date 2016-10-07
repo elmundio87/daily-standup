@@ -1,0 +1,15 @@
+language: python
+python:
+- '2.7'
+branches:
+  only:
+  - master
+env:
+  global:
+  - secure: Vr3jt39lDk6ILe6AbXvQT66O3jg34PQQI5nH1U06vUbU1LNp62fxNDSVzk9mBZXx8Qe8SEcrfnQtsRqjoAK07maVsVHncVM8a0bgy3oH/pOgM6U8E1cyZqWef9EFN1lDc1RAbUnjzwRGhtak+v3fuxb+eyY4SpVAFckRFv7GgnqMRBdhr3RqM+5KU+dBYwI+/DGBdqeZLqGl4LGNzrw3BgjtiLTxbC5rkp3gd4VYOj95nhZ1+4ykbfQBFcCroe9dBmJI7fIo6WLswgJB1XZhXwX4vz3ngNYLPgXciJUkTlCbhFAfJ8tsKqGlRldQqGpPhcrOJNAuaEkZ4ZawjJg8j72rtjKmyCn+wXqHAJRN3D/0Jen9nfPDcXdzuL53g5/g09GydQ2fKpesb8ZIbkoURrD/i6HUc6iWtb1QxZy+siEJRDYh6FKAlDLInT8ZHOLzwpIoJ318TO+fyIdQeIUIbFWcKGGTgTgYCdt7ny84E313lV6BK/sV6kt+DFTFVuGcUd3Pj8vvH6XOM3TWECusW5KA/T365tLNk9bWo/+HJehY7Z3k6KxX53MReEzZsdvABchwlqo1XfaK8+KCWBWfDSYlqySkrN5zqerHfwC0+/6q7+KWspuF0Cn3L1dUquclJ2v1RQ4Z7tHJXLqFj0UPtaMYzEX8VC02RouX9WwJXIY=
+  - secure: a8S+DnmEImLPNaqR32byTjRFGyAvUQ7u8KO7rpz4csFEtrqpPPunfsPGPLH+rbBws27oPTp+Hm0fhPYDFY4NbODcBMeKl4OGFxI0+lOEj1zeuNDVBxS+RHwOcIK8pFo10s+iiZp4b97EDSC32ycc+HTsevRsOU2ef69sAqZmIhAUZfl0HNOwmE8W+5HBs5TqIFuZqiEQab2EnU9AgBhLZpEn02AdaxfAOpaOU9oFGsFG6LpGfbi5/1DCa5Jib0oGPGVuoXCzYXHl1CwJvWJ+4Fi5HBLh3Lqp5vXZBjjgUMXLFfxj3NL0dIIOcEruTjFP/jH+EQJpb6jW3zESMdvmJYJhBfu33b+SWGxqE2pd346TgJCxkipT9kDfB74NUFTeYchm7lar79eiElvIVA4Jf2CgujmQxgmSwY9qMME64992mDy4j0eA+BS7V5CoVlCo274YQylOkPkA+z94xtVCiKKZfWFYH0PyDnNd6K+OoQbQJwmqP+fUimPYRxjP1X18sDoRqp2IYq7UH7cxZMRlYHy+p6MXeSdLrKQlSaLD3ppRFzO9BAm+tGAn6OPdcygRV+FBsSK1nr6X6bQkxu6pGau+rqVqGbMWSTxOmSvD1cf3OjadxGPBejzbNEBqudTU/Cv1Dg2eM2z7k5iWuoF+pq1BgPdXusI/7Lw3jxCX9vY=
+before_install:
+- openssl aes-256-cbc -K $encrypted_ef58278c9052_key -iv $encrypted_ef58278c9052_iv
+  -in config.py.enc -out config.py -d
+install: pip install -r requirements.txt
+script: if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-deploy.sh; fi
