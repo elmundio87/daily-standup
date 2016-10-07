@@ -3,6 +3,7 @@ sites = {}
 sites["Pack 1"] = []
 
 sites["Pack 2"] = [
+"devopsguys.com",
 "staging.apmg-businessbooks.com",
 "apmg-businessbooks.com",
 "apmg-cyber.com",
@@ -14,5 +15,7 @@ sites["Pack 2"] = [
 "staging-urm.apmg-certified.com",
 "staging-bureauveritas.apmg-certified.com",
 "staging.ppp-certification.com",
-"ppp-certification.com"
+"ppp-certification.com",
+"cdcat-apmg.com",
+"preprod.cdcat-apmg.com"
 ]
