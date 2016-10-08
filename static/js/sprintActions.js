@@ -1,5 +1,12 @@
-var sprint_actions = "";
-var expiring_certs = "";
+var sprint_actions = "Loading Sprint Actions...";
+var expiring_certs = "Loading SSL certs...";
+var report_link = $("<a>");
+    
+report_link.text("View all SSL Certs");
+report_link.attr('target',"_blank");
+report_link.attr('href',"ssl_certs.html?board_name=" + getUrlParameter("board_name") );
+expiring_certs += report_link[0].outerHTML;
+
 
 updateSprintActions = function(){
     $("#sprint-actions").html(sprint_actions + expiring_certs);
@@ -29,7 +36,6 @@ getSprintActions = function(){
     },
     data: { sprint_name: getLastSprintName(SPRINT_NAME) }
   }).done(function (data){
-    $(".message").html("Rendering Sprint Actions");
     sprint_actions = data;
     updateSprintActions();
   });
@@ -39,7 +45,6 @@ getSprintActions = function(){
     url: API_URL + "/getExpiringCertificates",
     data: { board_name: board_name }
   }).done(function (data){
-    $(".message").html("Finding expiring certificates");
 
     json = JSON.parse(data);
     root = $('<ul>');
@@ -79,12 +84,7 @@ getSprintActions = function(){
       
     }
     
-    report = $("<a>");
-    report.text("View all SSL Certs");
-    report.attr('target',"_blank");
-    report.attr('href',"ssl_certs.html?board_name=" + getUrlParameter("board_name") );
-    
-    expiring_certs = root[0].outerHTML + report[0].outerHTML;
+    expiring_certs = root[0].outerHTML + report_link[0].outerHTML;
     updateSprintActions();
   });
   

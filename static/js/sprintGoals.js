@@ -8,7 +8,6 @@ getSprintGoals = function(){
     },
     data: { sprint_name: SPRINT_NAME }
   }).done(function (data){
-    $(".message").html("Rendering Sprint Goals");
     $("#sprint-goals").html(data);
     $("#sprint-goals").find("br").remove();
     fitToPanel("sprint-goals");
