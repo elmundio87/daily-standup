@@ -25,7 +25,7 @@
         "s3_bucket": "zappa-dog-dailystandup-live",
         "keep_warm": false,
         "parameter_depth": 2,
-        "memory_size": 128,
+        "memory_size": 512,
         "exclude": ["awscli*","static","s3cmd*"],
         "profile_name": "daily-standup",
         "method_header_types": [
