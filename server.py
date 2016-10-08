@@ -8,11 +8,53 @@ import lxml.html
 from Crypto.Hash import SHA256
 import time
 from datetime import datetime, date, timedelta
+from retrying import retry
 
 from config import config
 from lib import expiring_certs
 
 app = Flask(__name__)
+
+
+@retry(stop_max_attempt_number=10)
+def request_page_with_authentication(url, username, password):
+    r = requests.get(url, auth=(username, password))
+
+    # Sometimes the Atlassian server rejects the password
+    # so retry a few times
+    if r.status_code == 401:
+        raise Exception
+
+    return r
+
+
+def find_in_confluence_page(sprint_name, search_string, child_element, label):
+    if 'sprint_name' in request.args:
+        sprint_name = request.args['sprint_name']
+    else:
+        return 'getSprintActions requires parameter [sprint_name]'
+
+    url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(
+        config.base_url, sprint_name.replace(" ", "+").replace("#", ""))
+
+    r = request_page_with_authentication(url, config.atlassian_username,
+                                         config.atlassian_password)
+    r.raise_for_status
+
+    tree = lxml.html.fromstring(r.text)
+
+    elements = tree.find_class("innerCell")
+
+    actions = None
+
+    for element in elements:
+        if search_string in lxml.html.tostring(element):
+            actions = element.find(child_element)
+
+    if actions is None:
+        return "Nothing found in Confluence. Please ensure that <a href='{1}'>this page</a> exists, and that there is a section called '{1}'".format(url, label), 200
+
+    return lxml.html.tostring(actions), 200
 
 
 def is_working_day(date):
@@ -123,26 +165,7 @@ def getSprintGoals():
     else:
         return 'getSprintGoals requires parameter [sprint_name]'
 
-    url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(
-        config.base_url, sprint_name.replace(" ", "+").replace("#", ""))
-    r = requests.get(url, auth=(
-        config.atlassian_username, config.atlassian_password))
-    r.raise_for_status
-
-    tree = lxml.html.fromstring(r.text)
-
-    elements = tree.find_class("innerCell")
-
-    goals = None
-
-    for element in elements:
-        if ">Sprint Goals<" in lxml.html.tostring(element):
-            goals = element.find('ul')
-
-    if goals is None:
-        return "No Sprint goals found in {0}. Please ensure that {0} exists, and that there is a section called 'Sprint Goals' that contains a list.".format(url), 200
-
-    return lxml.html.tostring(goals), 200
+    return find_in_confluence_page(sprint_name, '>Sprint Goals<', 'ul', 'Sprint Goals')
 
 
 @app.route("/getSprintActions")
@@ -154,26 +177,7 @@ def getSprintActions():
     else:
         return 'getSprintActions requires parameter [sprint_name]'
 
-    url = "{0}/wiki/display/DEVOPSGUYS/{1}+Retrospective".format(
-        config.base_url, sprint_name.replace(" ", "+").replace("#", ""))
-    r = requests.get(url, auth=(config.atlassian_username,
-                                config.atlassian_password))
-    r.raise_for_status
-
-    tree = lxml.html.fromstring(r.text)
-
-    elements = tree.find_class("innerCell")
-
-    goals = None
-
-    for element in elements:
-        if ">Actions<" in lxml.html.tostring(element):
-            goals = element.find('ul')
-
-    if goals is None:
-        return "No Sprint actions found in Confluence. Please ensure that <a href='{0}'>this page</a> exists, and that there is a section called 'Actions' that contains a list.".format(url), 200
-
-    return lxml.html.tostring(goals), 200
+    return find_in_confluence_page(sprint_name, '>Actions<', 'ul', 'Actions')
 
 
 @app.route("/getRapidBoardId")
