@@ -6,12 +6,11 @@ import requests
 import json
 import lxml.html
 from Crypto.Hash import SHA256
-import time
-from datetime import datetime, date, timedelta
 from retrying import retry
-
+from datetime import datetime, date, timedelta
 from config import config
 from lib import expiring_certs
+from lib import working_days
 
 app = Flask(__name__)
 
@@ -55,24 +54,6 @@ def find_in_confluence_page(sprint_name, search_string, child_element, label):
         return "Nothing found in Confluence. Please ensure that <a href='{1}'>this page</a> exists, and that there is a section called '{1}'".format(url, label), 200
 
     return lxml.html.tostring(actions), 200
-
-
-def is_working_day(date):
-    return date.weekday() <= 4
-
-
-def get_working_days(date_start_obj, date_end_obj):
-
-    total_working_days = 0
-
-    date_range = [date_start_obj + timedelta(days=x)
-                  for x in range(0, (date_end_obj - date_start_obj).days)]
-
-    for date in date_range:
-        if is_working_day(date):
-            total_working_days += 1
-
-    return total_working_days
 
 
 def check_auth(username, password):
@@ -225,7 +206,7 @@ def getSprintDaysRemaining():
     endDate = datetime.strptime(sprint_report["sprint"][
                                 "endDate"], '%d/%b/%y %H:%M %p').date()
 
-    return "{0}".format(get_working_days(startDate, endDate)), 200
+    return "{0}".format(working_days.get_working_days(startDate, endDate)), 200
 
 
 @app.route("/getSprintName")
