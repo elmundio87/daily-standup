@@ -171,8 +171,8 @@ def getRapidBoardId():
         return 'getRapidBoardId requires parameter [board_name]'
 
     url = "{0}/rest/greenhopper/1.0/rapidview".format(config.base_url)
-    r = requests.get(url, auth=(
-        config.atlassian_username, config.atlassian_password))
+    r = request_page_with_authentication(url, config.atlassian_username,
+                                         config.atlassian_password)
     boards = json.loads(r.text)
     for board in boards['views']:
         if board['name'] == board_name:
@@ -196,10 +196,8 @@ def getSprintDaysRemaining():
 
     url = "{0}/rest/greenhopper/1.0/rapid/charts/sprintreport/?rapidViewId={1}&sprintId={2}".format(
         config.base_url, board_id, sprint_id)
-    r = requests.get(url, auth=(
-        config.atlassian_username,
-        config.atlassian_password)
-    )
+    r = request_page_with_authentication(url, config.atlassian_username,
+                                         config.atlassian_password)
     sprint_report = json.loads(r.text)
 
     startDate = date.today()
@@ -225,8 +223,8 @@ def getSprintName():
 
     url = "{0}/rest/greenhopper/latest/sprintquery/{1}".format(
         config.base_url, board_id)
-    r = requests.get(url, auth=(
-        config.atlassian_username, config.atlassian_password))
+    r = request_page_with_authentication(url, config.atlassian_username,
+                                         config.atlassian_password)
     sprints = json.loads(r.text)
     for sprint in sprints['sprints']:
         if sprint['state'] == "ACTIVE" and board_name in sprint['name']:
