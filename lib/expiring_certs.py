@@ -2,7 +2,6 @@ import socket
 import ssl
 import datetime
 import json
-from retrying import retry
 from config import expiring_certs_config as config
 from pyasn1_modules import pem, rfc2459
 from pyasn1.codec.der import decoder as der_decoder
@@ -26,11 +25,14 @@ def ssl_output_item(hostname):
             }
 
 
-@retry(stop_max_attempt_number=10)
 def ssl_expiry_datetime(hostname):
     ssl_date_fmt = r'%b %d %H:%M:%S %Y %Z'
 
-    pem_cert = ssl.get_server_certificate((hostname, 443))
+    try:
+        pem_cert = ssl.get_server_certificate((hostname, 443))
+    except Exception, e:
+        return datetime.datetime.now(), str(e)
+
     der_cert = ssl.PEM_cert_to_DER_cert(pem_cert)
     cert = der_decoder.decode(der_cert, asn1Spec=rfc2459.Certificate())[0]
     tbs = cert.getComponentByName('tbsCertificate')
