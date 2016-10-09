@@ -1,7 +1,10 @@
 language: python
 python:
 - '2.7'
-cache: pip
+cache: 
+  pip: true
+  directories:
+    - $HOME/virtualenv
 env:
   global:
   - secure: Vr3jt39lDk6ILe6AbXvQT66O3jg34PQQI5nH1U06vUbU1LNp62fxNDSVzk9mBZXx8Qe8SEcrfnQtsRqjoAK07maVsVHncVM8a0bgy3oH/pOgM6U8E1cyZqWef9EFN1lDc1RAbUnjzwRGhtak+v3fuxb+eyY4SpVAFckRFv7GgnqMRBdhr3RqM+5KU+dBYwI+/DGBdqeZLqGl4LGNzrw3BgjtiLTxbC5rkp3gd4VYOj95nhZ1+4ykbfQBFcCroe9dBmJI7fIo6WLswgJB1XZhXwX4vz3ngNYLPgXciJUkTlCbhFAfJ8tsKqGlRldQqGpPhcrOJNAuaEkZ4ZawjJg8j72rtjKmyCn+wXqHAJRN3D/0Jen9nfPDcXdzuL53g5/g09GydQ2fKpesb8ZIbkoURrD/i6HUc6iWtb1QxZy+siEJRDYh6FKAlDLInT8ZHOLzwpIoJ318TO+fyIdQeIUIbFWcKGGTgTgYCdt7ny84E313lV6BK/sV6kt+DFTFVuGcUd3Pj8vvH6XOM3TWECusW5KA/T365tLNk9bWo/+HJehY7Z3k6KxX53MReEzZsdvABchwlqo1XfaK8+KCWBWfDSYlqySkrN5zqerHfwC0+/6q7+KWspuF0Cn3L1dUquclJ2v1RQ4Z7tHJXLqFj0UPtaMYzEX8VC02RouX9WwJXIY=
