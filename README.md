@@ -1,4 +1,4 @@
-# daily-standup
+# daily-standup [![Build Status](https://travis-ci.org/elmundio87/daily-standup.svg?branch=master)](https://travis-ci.org/elmundio87/daily-standup)
 A dashboard that can be shown at the beginning of each day during a standup.
 
 # I just want to add a new hostname to the Live SSL report!
