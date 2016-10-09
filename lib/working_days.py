@@ -1,9 +1,10 @@
 import time
 from datetime import datetime, date, timedelta
+import dog_holidays
 
 
 def is_working_day(date):
-    return date.weekday() <= 4
+    return date.weekday() <= 4 and date not in dog_holidays.DevOpsGuysHolidays()
 
 
 def get_working_days(date_start_obj, date_end_obj):
