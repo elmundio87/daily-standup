@@ -4,3 +4,4 @@ config.py
 env/
 static/properties/*.js
 daily-standup-*
+.cache
