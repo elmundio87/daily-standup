@@ -11,7 +11,14 @@ setTitleLabel = function(board_id, sprint_id){
     var today = new Date().toLocaleDateString("en-GB");
     var titleLabel = $("#title-label");
     date = $("<small>");
-    date.text(data + " days remaining");
+    
+    if(data == "1"){
+        date.text(data + " day remaining");
+    }
+    else{
+        date.text(data + " days remaining");
+    }
+  
     titleLabel.html(SPRINT_NAME + date[0].outerHTML );
   });
   

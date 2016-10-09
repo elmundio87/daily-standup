@@ -41,6 +41,8 @@ class TestWorkingDays(unittest.TestCase):
         last_monday = date(2016, 10, 3)
         self.assertEqual(working_days.get_working_days(friday, last_monday), 0)
 
+    def test_new_years_bank_holiday_is_not_working_day(self):
+        self.assertTrue(working_days.is_working_day(date(2017, 2, 1)))
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestWorkingDays)
