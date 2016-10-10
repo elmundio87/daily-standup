@@ -13,6 +13,7 @@ def get_expiring_certs(board_name):
     pool = ThreadPool(8)
     if board_name in config.sites.keys():
         output = pool.map(ssl_output_item, config.sites[board_name])
+    output = sorted(output, key=lambda k: k.get('days_remaining', 0))
     return json.dumps(output)
 
 
