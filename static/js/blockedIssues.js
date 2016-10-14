@@ -33,7 +33,7 @@ blockedIssuesHandler = function(data){
       card.append(issue.description);
       
       if ( parseInt(issue.last_update_days) > 0 ){
-        card.append(" <b>(" + issue.last_update_days + " days since last update)</b>");
+        card.append(" <b>(" + issue.last_update_days + " working days since last update)</b>");
       }
       
       with_customer_issue_cards.append(card);

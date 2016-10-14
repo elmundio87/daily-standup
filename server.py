@@ -5,6 +5,7 @@ import sys
 import requests
 import json
 import lxml.html
+import re
 from Crypto.Hash import SHA256
 from retrying import retry
 from datetime import datetime, date, timedelta
@@ -120,18 +121,37 @@ def getBlockedIssues():
     issues = []
 
     for issue in flagged:
+        startDate = issue.fields.updated
+        # comments = jira.comments(issue)
+        # if len(comments) > 0:
+        #     startDate = comments[-1].updated
+
+        startDate = re.sub('\..*', '', startDate)
+        startDate = datetime.strptime(startDate, '%Y-%m-%dT%H:%M:%S').date()
+        endDate = date.today()
+        last_update_days = "{0}".format(working_days.get_working_days(startDate, endDate))
         issues.append({"key": issue.key,
                        "status": issue.fields.status.name,
                        "description": issue.fields.summary,
                        "flagged": True,
-                       "last_update": issue.fields.updated})
+                       "last_update_days": last_update_days})
 
     for issue in with_customer:
+
+        startDate = issue.fields.updated
+        comments = jira.comments(issue)
+        if len(comments) > 0:
+            startDate = comments[-1].updated
+
+        startDate = re.sub('\..*', '', startDate)
+        startDate = datetime.strptime(startDate, '%Y-%m-%dT%H:%M:%S').date()
+        endDate = date.today()
+        last_update_days = "{0}".format(working_days.get_working_days(startDate, endDate))
         issues.append({"key": issue.key,
                        "status": issue.fields.status.name,
                        "description": issue.fields.summary,
                        "flagged": False,
-                       "last_update": issue.fields.updated})
+                       "last_update_days": last_update_days})
 
     if len(issues) == 0:
         return json.dumps({"error": "No blocked issues found. Any issue that "
