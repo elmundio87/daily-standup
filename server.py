@@ -123,11 +123,15 @@ def getBlockedIssues():
         issues.append({"key": issue.key,
                        "status": issue.fields.status.name,
                        "description": issue.fields.summary,
-                       "flagged": True})
+                       "flagged": True,
+                       "last_update": issue.fields.updated})
 
     for issue in with_customer:
-        issues.append({"key": issue.key, "status": issue.fields.status.name,
-                       "description": issue.fields.summary, "flagged": False})
+        issues.append({"key": issue.key,
+                       "status": issue.fields.status.name,
+                       "description": issue.fields.summary,
+                       "flagged": False,
+                       "last_update": issue.fields.updated})
 
     if len(issues) == 0:
         return json.dumps({"error": "No blocked issues found. Any issue that "
