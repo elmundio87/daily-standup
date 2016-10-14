@@ -11,6 +11,10 @@ blockedIssuesHandler = function(data){
     return;
   }
 
+  json.issues.sort(function(a, b) {
+    return parseInt(a.last_update_days) - parseInt(b.last_update_days);
+  }).reverse();
+
   for (var entry in json.issues) {
 
     issue = json.issues[entry];
@@ -27,6 +31,11 @@ blockedIssuesHandler = function(data){
 
       card.append(id_link);
       card.append(issue.description);
+      
+      if ( parseInt(issue.last_update_days) > 0 ){
+        card.append(" <b>(" + issue.last_update_days + " days since last update)</b>");
+      }
+      
       with_customer_issue_cards.append(card);
 
     }else{
