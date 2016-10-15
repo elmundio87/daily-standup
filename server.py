@@ -130,14 +130,14 @@ def getBlockedIssues():
         startDate = datetime.strptime(startDate, '%Y-%m-%dT%H:%M:%S').date()
         endDate = date.today()
         last_update_days = "{0}".format(working_days.get_working_days(startDate, endDate))
-        issues.append({"key": issue.key,
-                       "status": issue.fields.status.name,
-                       "description": issue.fields.summary,
-                       "flagged": True,
-                       "last_update_days": last_update_days})
+        if len(filter(lambda x: x['key'] == issue.key, issues)) == 0:
+            issues.append({"key": issue.key,
+                           "status": issue.fields.status.name,
+                           "description": issue.fields.summary,
+                           "flagged": True,
+                           "last_update_days": last_update_days})
 
     for issue in with_customer:
-
         startDate = issue.fields.updated
         comments = jira.comments(issue)
         if len(comments) > 0:
@@ -147,11 +147,12 @@ def getBlockedIssues():
         startDate = datetime.strptime(startDate, '%Y-%m-%dT%H:%M:%S').date()
         endDate = date.today()
         last_update_days = "{0}".format(working_days.get_working_days(startDate, endDate))
-        issues.append({"key": issue.key,
-                       "status": issue.fields.status.name,
-                       "description": issue.fields.summary,
-                       "flagged": False,
-                       "last_update_days": last_update_days})
+        if len(filter(lambda x: x['key'] == issue.key, issues)) == 0:
+            issues.append({"key": issue.key,
+                           "status": issue.fields.status.name,
+                           "description": issue.fields.summary,
+                           "flagged": False,
+                           "last_update_days": last_update_days})
 
     if len(issues) == 0:
         return json.dumps({"error": "No blocked issues found. Any issue that "
