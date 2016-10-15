@@ -19,7 +19,6 @@ blockedIssuesHandler = function(data){
 
     issue = json.issues[entry];
 
-
     if(issue.status == "With Customer"){
       card = $('<li>').attr('class','list-group-item');
 
@@ -38,7 +37,9 @@ blockedIssuesHandler = function(data){
       
       with_customer_issue_cards.append(card);
 
-    }else{
+    }
+
+    if(issue.flagged){
       card = $('<div>').attr('class','card');
       id_link = $('<a>');
       id_link.attr('target','_blank');
