@@ -5,15 +5,14 @@ import json
 from config import expiring_certs_config as config
 from pyasn1_modules import pem, rfc2459
 from pyasn1.codec.der import decoder as der_decoder
-from multiprocessing.dummy import Pool as ThreadPool
 from retrying import retry
 
 
 def get_expiring_certs(board_name):
     output = []
-    pool = ThreadPool(8)
     if board_name in config.sites.keys():
-        output = pool.map(ssl_output_item, config.sites[board_name])
+        for host in config.sites[board_name]:
+            output.append(ssl_output_item(host))
     output = sorted(output, key=lambda k: k.get('days_remaining', 0))
     return json.dumps(output)
 
@@ -23,8 +22,7 @@ def ssl_output_item(hostname):
     return {"hostname": hostname,
             "days_remaining": ssl_valid_time_remaining(hostname),
             "notAfter": "{:%B %d, %Y}".format(expire_date),
-            "error": error
-            }
+            "error": error}
 
 
 @retry(stop_max_attempt_number=4)
