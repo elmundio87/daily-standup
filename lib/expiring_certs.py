@@ -6,6 +6,7 @@ from config import expiring_certs_config as config
 from pyasn1_modules import pem, rfc2459
 from pyasn1.codec.der import decoder as der_decoder
 from multiprocessing.dummy import Pool as ThreadPool
+from retrying import retry
 
 
 def get_expiring_certs(board_name):
@@ -26,6 +27,7 @@ def ssl_output_item(hostname):
             }
 
 
+@retry(stop_max_attempt_number=4)
 def ssl_expiry_datetime(hostname):
     ssl_date_fmt = r'%b %d %H:%M:%S %Y %Z'
 
