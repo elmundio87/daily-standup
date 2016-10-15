@@ -154,6 +154,10 @@
   cursor: pointer;
 }
 
+.no-webcam {
+  height: 42vh !important;
+}
+
 #panel-sprint-goals {
   height: 30vh;
   overflow-y: scroll;
@@ -184,4 +188,8 @@
 
 .ssl_error {
   color: red;
+}
+
+.page-header {
+    height: 5vh;
 }
