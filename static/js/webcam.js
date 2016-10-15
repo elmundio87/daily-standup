@@ -1,7 +1,8 @@
+var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 var video = document.querySelector("#webcam");
 var videoShouldShow = getUrlParameter('video');
 
-if(videoShouldShow != "on"){
+if(videoShouldShow != "on" || iOS){
   $("#webcam").hide();
   $("#panel-sprint-goals").addClass("no-webcam");
   $("#panel-sprint-actions").addClass("no-webcam");
